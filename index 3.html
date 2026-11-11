@@ -1,0 +1,1003 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
+<title>낙원정신병동 갤러리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* 레이아웃: 촘촘한 모바일 갤러리 목록. 헤더 36px 검색 → 메뉴 → 제목줄 → 탭 → 말머리 → 고정 공지 → 글 목록(우측 댓글 열) */
+:root {
+  --bg: #eef1ef;
+  --surface: #ffffff;
+  --ink: #1b2522;
+  --muted: #8a9690;
+  --line: #e1e6e3;
+  --head: #1f5b52;
+  --head2: #276b60;
+  --head-ink: #ffffff;
+  --brand: #1f5b52;
+  --notice: #d03a2c;
+  --hot: #e8590c;
+  --tint: #f0f3f1;
+  --font-display: "Black Han Sans", "Noto Sans KR", sans-serif;
+  --font-body: -apple-system, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111715; --surface: #18201d; --ink: #e5ebe8; --muted: #8b9993; --line: #2a3531;
+    --head: #15302b; --head2: #1b3d36; --head-ink: #f1f6f4; --brand: #5fb3a3;
+    --notice: #f08470; --hot: #f2884f; --tint: #1e2824; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111715; --surface: #18201d; --ink: #e5ebe8; --muted: #8b9993; --line: #2a3531;
+  --head: #15302b; --head2: #1b3d36; --head-ink: #f1f6f4; --brand: #5fb3a3;
+  --notice: #f08470; --hot: #f2884f; --tint: #1e2824; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 14px; line-height: 1.4; }
+button, input, select, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; padding: 0; }
+a { color: inherit; text-decoration: none; }
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.in { max-width: 760px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrapmax { max-width: 760px; margin: 0 auto; }
+
+/* 헤더 */
+.top { background: var(--head); color: var(--head-ink); }
+.top .in { display: flex; align-items: center; gap: 8px; padding-block: 8px; }
+.logo { display: flex; align-items: center; gap: 4px; font-family: var(--font-display); font-size: 21px; letter-spacing: -0.02em; flex: none; line-height: 1; }
+.logo svg { width: 24px; height: 24px; }
+.search { flex: 1; min-width: 0; display: flex; align-items: stretch; background: var(--surface); color: var(--ink); border-radius: 2px; overflow: hidden; height: 36px; }
+.search .ham { width: 36px; display: grid; place-items: center; border-right: 1px solid var(--line); color: var(--muted); background: var(--tint); }
+.search input { flex: 1; min-width: 0; border: 0; background: transparent; padding: 0 9px; outline: none; font-size: 14px; }
+.search input::placeholder { color: var(--muted); }
+.search .go { width: 34px; display: grid; place-items: center; color: var(--brand); }
+.search .recent { display: flex; align-items: center; padding: 0 10px; border-left: 1px solid var(--line); font-weight: 700; font-size: 12.5px; white-space: nowrap; }
+.menu { background: var(--head2); color: var(--head-ink); }
+.menu .in { display: flex; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+.menu .in::-webkit-scrollbar { display: none; }
+.menu a { padding: 9px 0; font-weight: 700; white-space: nowrap; opacity: .82; font-size: 15px; }
+.menu a.on { opacity: 1; box-shadow: inset 0 -3px 0 var(--head-ink); }
+
+/* 갤러리 제목줄 */
+.gal { background: var(--surface); border-bottom: 1px solid var(--line); }
+.gal .in { display: flex; align-items: center; gap: 5px; padding-block: 9px; }
+.gal h1 { font-size: 17px; font-weight: 700; margin: 0; letter-spacing: -0.04em; white-space: nowrap; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.badge-m { flex: none; width: 19px; height: 19px; border: 2px solid var(--ink); border-radius: 50%; display: grid; place-items: center; font-size: 10px; font-weight: 700; line-height: 1; }
+.count { color: var(--muted); font-size: 11px; white-space: nowrap; }
+.gal .sp { flex: 1; min-width: 0; }
+.gal .lnk { font-size: 12.5px; padding: 2px 5px; white-space: nowrap; position: relative; }
+.gal .lnk + .lnk { border-left: 1px solid var(--line); }
+.gal .info { width: 18px; height: 18px; color: var(--muted); flex: none; }
+.gal .nd { display: inline-grid; place-items: center; width: 11px; height: 11px; border-radius: 50%; background: var(--notice); color: #fff; font-size: 7.5px; font-weight: 700; margin-left: 2px; vertical-align: 5px; }
+.write { border: 1.5px solid var(--brand); color: var(--brand); font-weight: 700; padding: 6px 11px; border-radius: 1px; white-space: nowrap; font-size: 13.5px; margin-left: 4px; }
+@media (max-width: 359px) { .gal .info { display: none; } }
+
+/* 탭 */
+.tabs { background: var(--surface); border-bottom: 1px solid var(--line); }
+.tabs .in { display: flex; align-items: stretch; }
+.tabs .t { flex: 1; text-align: center; padding: 9px 0; font-weight: 700; font-size: 16px; position: relative; }
+.tabs .t + .t::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 1px; background: var(--line); }
+.tabs .t.on { color: var(--brand); box-shadow: inset 0 -3px 0 var(--brand); }
+.tabs .n { display: flex; align-items: center; gap: 4px; padding-left: 14px; color: var(--ink); font-size: 14px; }
+.tabs .n svg { color: var(--muted); }
+.cats { background: var(--surface); border-bottom: 5px solid var(--bg); }
+.cats .in { display: flex; gap: 16px; overflow-x: auto; scrollbar-width: none; }
+.cats .in::-webkit-scrollbar { display: none; }
+.cats button { padding: 9px 0; white-space: nowrap; font-size: 14px; color: var(--ink); }
+.cats button.on { font-weight: 700; }
+
+/* 목록: 오른쪽 댓글 열을 화면 끝까지 */
+.list { background: var(--surface); }
+.list .wrapmax { padding-block: 0; }
+.row { display: flex; align-items: stretch; border-bottom: 1px solid var(--line); }
+.row .body { flex: 1; min-width: 0; padding: 7px 8px 7px max(16px, env(safe-area-inset-left, 0px)); }
+.row .ttl { display: flex; align-items: center; gap: 6px; min-width: 0; font-size: 15px; line-height: 1.35; }
+.row .ttl .t { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.row .meta { margin-top: 2px; font-size: 12px; color: var(--muted); display: flex; flex-wrap: nowrap; white-space: nowrap; overflow: hidden; }
+.row .meta i { font-style: normal; padding: 0 6px; opacity: .45; font-size: 10px; align-self: center; }
+.row .cm { flex: none; width: 42px; padding-right: env(safe-area-inset-right, 0px); text-align: center; color: var(--notice); font-size: 13px; background: var(--tint); display: flex; align-items: center; justify-content: center; }
+.row.pin .body { padding-block: 6px; }
+.row.pin .ttl .t { font-size: 15px; }
+.row.pin.hot .ttl .t { color: var(--hot); font-weight: 700; }
+.tag { flex: none; font-size: 12px; font-weight: 700; line-height: 1; padding: 5px 8px; border: 1.5px solid; border-radius: 99px; position: relative; }
+.tag.notice { color: var(--notice); border-color: var(--notice); }
+.tag.poll { color: var(--hot); border-color: var(--hot); }
+.tag.poll::after { content: ""; position: absolute; left: -3px; top: -3px; width: 7px; height: 7px; border-radius: 50%; background: var(--notice); }
+.ic { flex: none; width: 17px; height: 17px; border-radius: 50%; background: #c6cfca; color: var(--surface); display: grid; place-items: center; }
+.ic svg { width: 11px; height: 11px; }
+.ic.img { background: #2fa866; border-radius: 4px; }
+.empty { padding: 40px 0; text-align: center; color: var(--muted); }
+.em { font-size: 12px; margin-left: 1px; }
+
+.pager { display: flex; justify-content: center; gap: 4px; padding: 16px 0 90px; }
+.pager button { min-width: 32px; height: 32px; border: 1px solid var(--line); background: var(--surface); border-radius: 2px; color: var(--muted); }
+.pager button.on { border-color: var(--brand); color: var(--brand); font-weight: 700; }
+
+.fab { position: fixed; right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); width: 52px; height: 52px; border-radius: 50%; background: var(--brand); color: var(--head-ink); display: grid; place-items: center; box-shadow: 0 3px 12px rgba(0,0,0,.28); z-index: 5; }
+:root[data-theme="dark"] .fab { color: #0e1613; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .fab { color: #0e1613; } }
+
+/* 글 상세 */
+.pv { background: var(--surface); }
+.pv .in { padding-block: 0; }
+.bleed { margin-left: calc(-1 * max(16px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(16px, env(safe-area-inset-right, 0px))); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.pv-head { padding: 13px 0 11px; border-bottom: 1px solid var(--line); }
+.pv-title { margin: 0; font-size: 17px; font-weight: 700; line-height: 1.4; letter-spacing: -0.02em; word-break: break-word; }
+.pv-title .tag { margin-right: 6px; vertical-align: 1px; }
+.pv-sub { display: flex; align-items: center; gap: 8px; margin-top: 7px; font-size: 14px; min-width: 0; }
+.pv-sub .nm { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.pv-sub .dt { color: var(--muted); white-space: nowrap; }
+.pv-sub .sp { flex: 1; }
+.pv-sub .scrap { width: 30px; height: 30px; color: var(--muted); display: grid; place-items: center; flex: none; }
+.pv-sub .scrap svg { width: 22px; height: 22px; }
+.pv-pill { border: 1px solid var(--line); border-radius: 99px; padding: 5px 12px; font-size: 13px; white-space: nowrap; flex: none; }
+.pv-stats { display: flex; align-items: center; gap: 8px; padding: 10px 0 12px; color: var(--muted); font-size: 14px; }
+.pv-stats .sep { opacity: .4; font-size: 10px; }
+.pv-stats .cpill { border: 1px solid var(--line); border-radius: 99px; padding: 3px 11px; font-size: 13px; background: var(--tint); }
+.pv-stats .cpill b { color: var(--notice); font-weight: 400; margin-left: 3px; }
+.pv-body { padding: 4px 0 26px; font-size: 16.5px; line-height: 1.65; min-height: 110px; word-break: break-word; }
+.pv-body p { margin: 0 0 .75em; }
+.concept { display: flex; justify-content: center; align-items: center; gap: 10px; padding: 8px 0 14px; }
+.concept .cnt { color: var(--brand); font-weight: 700; font-size: 16px; }
+.concept .btn { width: 64px; height: 64px; border-radius: 50%; background: var(--brand); color: var(--head-ink); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; font-size: 12px; font-weight: 700; }
+.concept .btn svg { width: 26px; height: 26px; }
+.pv-act { display: flex; justify-content: center; flex-wrap: wrap; gap: 2px; border: 1px solid var(--line); background: var(--tint); margin: 4px 0 18px; padding: 8px 4px; }
+.pv-act button { display: flex; align-items: center; gap: 5px; padding: 5px 9px; color: var(--muted); font-size: 14px; }
+.pv-act svg { width: 19px; height: 19px; }
+.pv-act .rd { color: var(--notice); }
+.pv-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-bottom: 14px; }
+.pv-btns button { height: 42px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; font-size: 15.5px; }
+.pv-btns .primary { background: var(--brand); border-color: var(--brand); color: var(--head-ink); }
+:root[data-theme="dark"] .pv-btns .primary, :root[data-theme="dark"] .pc-tools .go { color: #0e1613; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pv-btns .primary, :root:not([data-theme="light"]) .pc-tools .go { color: #0e1613; } }
+.pv-ch { display: flex; align-items: center; gap: 6px; padding-block: 11px; border-top: 5px solid var(--bg); border-bottom: 5px solid var(--bg); font-weight: 700; font-size: 17px; }
+.pv-ch .n { color: var(--notice); font-weight: 400; }
+.pv-ch svg { width: 20px; height: 20px; color: var(--muted); }
+.pv-ch .sp { flex: 1; }
+.pv-ch .sort { font-weight: 400; font-size: 14px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+.pv-ch .sort i { font-style: normal; opacity: .35; }
+.pc { padding: 11px 0 10px; border-bottom: 1px solid var(--line); }
+.pc .nm { font-size: 15px; }
+.pc p { margin: 3px 0 0; font-size: 15.5px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+.pc .tm { margin-top: 4px; font-size: 13px; color: var(--muted); }
+.pc-empty { padding: 20px 0; text-align: center; color: var(--muted); border-bottom: 1px solid var(--line); }
+.pc-form { border: 1px solid #aeb9b4; margin: 12px 0 22px; background: var(--surface); }
+.pc-top { display: flex; border-bottom: 1px solid var(--line); }
+.pc-top > div { flex: 1; min-width: 0; position: relative; display: flex; align-items: center; }
+.pc-top > div + div { border-left: 1px solid var(--line); }
+.pc-top input { width: 100%; min-width: 0; border: 0; background: transparent; padding: 11px 12px; font-size: 15px; outline: none; }
+.pc-top input.nm { color: var(--brand); padding-right: 40px; }
+.pc-top .clr { position: absolute; right: 8px; width: 24px; height: 24px; border-radius: 50%; background: #c5cdc9; color: var(--surface); font-size: 16px; line-height: 1; display: grid; place-items: center; }
+.pc-ta { display: block; width: 100%; min-height: 104px; border: 0; background: transparent; padding: 12px; resize: vertical; outline: none; font-size: 15.5px; line-height: 1.5; }
+.pc-tools { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-top: 1px solid var(--line); }
+.pc-tools .sp { flex: 1; }
+.pc-tools .tl { width: 32px; height: 32px; border: 1.5px solid var(--muted); border-radius: 7px; display: grid; place-items: center; font-weight: 700; font-size: 16px; }
+.pc-tools .go { height: 32px; padding: 0 20px; background: var(--brand); color: var(--head-ink); font-weight: 700; }
+
+/* 글쓰기 화면 */
+.wv { background: var(--surface); }
+.wv .in { padding-block: 0; }
+.wv-head { display: flex; align-items: center; gap: 8px; padding-block: 10px; border-bottom: 1px solid var(--line); }
+.wv-head h2 { margin: 0; flex: 1; font-size: 19px; }
+.wv-head button { height: 36px; padding: 0 16px; border: 1px solid var(--line); background: var(--surface); font-weight: 700; font-size: 14px; }
+.wv-head .reg { border: 1.5px solid var(--brand); color: var(--brand); min-width: 92px; }
+.wv-id { display: flex; border-bottom: 1px solid var(--line); }
+.wv-id > div { flex: 1; min-width: 0; position: relative; display: flex; align-items: center; }
+.wv-id > div + div { border-left: 1px solid var(--line); }
+.wv-id input { width: 100%; min-width: 0; border: 0; background: transparent; padding: 14px 4px; font-size: 16px; outline: none; }
+.wv-id input.nm { color: var(--brand); padding-right: 44px; }
+.wv-id .clr { position: absolute; right: 10px; width: 26px; height: 26px; border-radius: 50%; background: #c5cdc9; color: var(--surface); font-size: 17px; line-height: 1; display: grid; place-items: center; }
+.wv-cats { display: flex; gap: 8px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; border-bottom: 1px solid var(--line); }
+.wv-cats::-webkit-scrollbar { display: none; }
+.wv-cats button { flex: none; padding: 10px 18px; background: var(--tint); font-size: 15.5px; white-space: nowrap; }
+.wv-cats button.on { background: var(--brand); color: var(--head-ink); }
+:root[data-theme="dark"] .wv-cats button.on, :root[data-theme="dark"] .wv-head .reg { color: #0e1613; }
+:root[data-theme="dark"] .wv-head .reg { color: var(--brand); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .wv-cats button.on { color: #0e1613; } }
+.wv-title input { width: 100%; border: 0; border-bottom: 1px solid var(--line); background: transparent; padding: 15px 0; font-size: 16.5px; outline: none; }
+.wv-tools { display: flex; align-items: center; gap: 8px; padding: 8px 0; flex-wrap: wrap; border-bottom: 1px solid var(--line); }
+.wv-tools select { height: 38px; border: 1px solid var(--line); background: var(--surface); border-radius: 3px; padding: 0 8px; font-size: 15px; }
+.wv-tools .grp { display: flex; border: 1px solid var(--line); border-radius: 3px; background: var(--surface); overflow: hidden; }
+.wv-tools .grp button { min-width: 38px; height: 36px; font-size: 18px; display: grid; place-items: center; }
+.wv-tools .grp button + button { border-left: 1px solid var(--line); }
+.wv-tools .hl { background: #fff200; color: #000; padding: 0 2px; }
+.wv-editor { min-height: 340px; padding: 14px 0 20px; outline: none; line-height: 1.6; word-break: break-word; }
+.wv-editor:empty::before { content: attr(data-ph); color: var(--muted); }
+.wv-editor mark { background: #fff200; color: #000; }
+.wv-icons { display: flex; align-items: center; gap: 14px; padding-block: 12px; overflow-x: auto; scrollbar-width: none; border-top: 5px solid var(--bg); border-bottom: 1px solid var(--line); }
+.wv-icons::-webkit-scrollbar { display: none; }
+.wv-icons button { flex: none; width: 40px; height: 40px; }
+.wv-icons svg { width: 100%; height: 100%; }
+.wv-notes { margin: 0 0 0; padding-block: 12px 26px; list-style: none; background: var(--tint); font-size: 13.5px; line-height: 1.6; }
+.wv-notes li::before { content: "* "; color: var(--muted); }
+.pv-body mark { background: #fff200; color: #000; }
+
+/* 깨진 폰 화면 테마: 어두운 바탕 위에 세로 줄과 금이 겹쳐 보이고, 내용은 그대로 읽힙니다. */
+:root:root:root { --bg:#04060a; --surface:#0a0e12; --ink:#e8eef0; --muted:#8d99a0; --line:#1b242a; --head:#0b221e; --head2:#102c27; --head-ink:#eaf6f3; --brand:#4fc2aa; --notice:#ff6b5a; --hot:#ff9a4d; --tint:#10171b; color-scheme: dark; }
+html { background: #000; }
+body { max-width: 480px; margin: 0 auto; min-height: 100vh; }
+.fab { right: max(16px, calc((100vw - 480px) / 2 + 16px)); color: #04120f; }
+.pv-btns .primary, .pc-tools .go, .concept .btn, .wv-cats button.on { color: #04120f; }
+.pc-form { border-color: #2c3a41; }
+.toast { z-index: 40; }
+
+/* 깨진 화면 질감: 어두운 막 → 빛나는 줄과 금(번짐 포함) → 액정 픽셀 격자 순으로 겹칩니다. */
+.glass-dark, .broken-screen, .glass-grid { position: fixed; top: 0; bottom: 0; left: 50%; width: min(100vw, 480px); transform: translateX(-50%); pointer-events: none; }
+.glass-dark { z-index: 28; background: radial-gradient(ellipse at 50% 38%, transparent 52%, rgba(0,0,0,.55) 100%); }
+.glass-dark svg, .broken-screen svg { display: block; width: 100%; height: 100%; }
+.broken-screen { z-index: 30; mix-blend-mode: screen; opacity: .36; }
+.glass-grid { z-index: 31; background:
+  repeating-linear-gradient(90deg, rgba(255,40,40,.085) 0 1px, rgba(40,255,60,.07) 1px 2px, rgba(60,90,255,.1) 2px 3px),
+  repeating-linear-gradient(0deg, rgba(0,0,0,.26) 0 1px, transparent 1px 3px); }
+body { text-shadow: .55px 0 rgba(255,70,70,.3), -.55px 0 rgba(70,140,255,.3); }
+.fl { animation: dying 3.4s steps(1, end) infinite; }
+@keyframes dying { 0%, 100% { opacity: .9; } 40% { opacity: .15; } 44% { opacity: .9; } 71% { opacity: .1; } 74% { opacity: .85; } }
+@media (prefers-reduced-motion: reduce) { .fl { animation: none; } }
+/* 관리자 편집 */
+.adm-bar { position: fixed; left: max(16px, calc((100vw - 480px) / 2 + 16px)); bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 45; display: flex; gap: 6px; }
+.adm-bar button { height: 36px; padding: 0 13px; border-radius: 99px; background: #e8eef0; color: #04120f; font-size: 13px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,.5); text-shadow: none; }
+.adm-bar button.on { background: var(--notice); color: #fff; }
+.adm-act, .pv-adm { display: flex; gap: 6px; padding: 5px max(16px, env(safe-area-inset-left, 0px)) 7px; border-bottom: 1px solid var(--line); background: var(--tint); }
+.pv-adm { padding-inline: 0; }
+.adm-act button, .pv-adm button, .pc-adm button { font-size: 12px; font-weight: 700; padding: 4px 10px; border: 1px solid var(--line); border-radius: 2px; background: var(--surface); }
+.adm-act button.warn, .pv-adm button.warn, .pc-adm button.warn { color: var(--notice); border-color: var(--notice); }
+.pc-adm { display: flex; gap: 6px; margin-top: 6px; }
+.modal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.65); overflow-y: auto; display: flex; justify-content: center; align-items: flex-start; padding: calc(16px + env(safe-area-inset-top, 0px)) 12px 24px; }
+.sheet { width: 100%; max-width: 560px; background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 16px; display: grid; gap: 10px; }
+.sheet h3 { margin: 0 0 2px; font-size: 17px; }
+.sheet label { display: grid; gap: 4px; font-size: 12.5px; color: var(--muted); font-weight: 700; }
+.sheet input[type=text], .sheet input[type=number], .sheet select, .sheet textarea { width: 100%; border: 1px solid var(--line); background: var(--bg); border-radius: 3px; padding: 9px 10px; color: var(--ink); font-size: 15px; font-weight: 400; }
+.sheet textarea { min-height: 120px; resize: vertical; line-height: 1.5; }
+.sheet .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sheet .checks { display: flex; flex-wrap: wrap; gap: 14px; }
+.sheet .checks label { display: flex; align-items: center; gap: 6px; font-size: 14px; color: var(--ink); font-weight: 400; }
+.sheet .hint { font-size: 12px; color: var(--muted); font-weight: 400; }
+.sheet .btns { display: flex; gap: 8px; justify-content: flex-end; }
+.sheet .btns button { padding: 10px 18px; border-radius: 3px; border: 1px solid var(--line); font-weight: 700; }
+.sheet .btns .save { background: var(--brand); border-color: var(--brand); color: #04120f; }
+
+/* 읽은 글은 제목이 회색 */
+.row.read .ttl .t, .row.pin.hot.read .ttl .t { color: #78848a; font-weight: 400; }
+.adm-bar { flex-wrap: wrap; max-width: min(calc(100vw - 100px), 380px); }
+.adm-bar button { font-size: 12px; padding: 0 11px; }
+.vtbl { overflow-x: auto; border: 1px solid var(--line); }
+.vtbl table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.vtbl th, .vtbl td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+.vtbl td:first-child { white-space: normal; min-width: 120px; }
+
+/* 비밀글 */
+.lk { display: inline-flex; color: var(--muted); flex: none; }
+.lk svg { width: 14px; height: 14px; }
+.gate { padding: 34px 0 28px; text-align: center; }
+.gate-ic svg { width: 44px; height: 44px; color: var(--muted); }
+.gate p { color: var(--muted); margin: 10px 0 16px; line-height: 1.6; }
+.gate-row { display: flex; gap: 6px; max-width: 320px; margin: 0 auto; }
+.gate-row input { flex: 1; min-width: 0; height: 42px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); padding: 0 12px; border-radius: 2px; font-size: 16px; }
+.gate-row button { padding: 0 18px; background: var(--brand); color: #04120f; font-weight: 700; border-radius: 2px; }
+/* 문자 알림 배너 */
+@keyframes noteIn { from { transform: translate(-50%, -150%); } to { transform: translate(-50%, 0); } }
+
+/* 문자 알림 배너 (눌러지지 않음) */
+.ios-notif { position: fixed; top: calc(env(safe-area-inset-top, 0px) + 8px); left: 50%; width: min(calc(100vw - 16px), 464px); transform: translate(-50%, -150%); opacity: 0; transition: transform .5s cubic-bezier(.2,.9,.25,1), opacity .35s; pointer-events: none; z-index: 29; overflow: hidden; border-radius: 22px; padding: 12px 16px 14px; color: #141414; text-shadow: .6px 0 rgba(255,60,60,.35), -.6px 0 rgba(60,130,255,.35); font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); box-shadow: 0 8px 28px rgba(0,0,0,.45); }
+.ios-notif.n1 { background: rgba(178,172,167,.95); }
+.ios-notif.n2 { background: rgba(142,142,142,.95); }
+.ios-notif::before { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 2;
+  background:
+    linear-gradient(100deg, transparent 0 46%, rgba(255,255,255,.55) 46.2% 46.6%, transparent 46.8% 100%),
+    linear-gradient(72deg, transparent 0 71%, rgba(0,0,0,.45) 71.2% 71.7%, transparent 72% 100%),
+    linear-gradient(90deg, transparent 0 14%, rgba(255,40,200,.5) 14% 14.8%, transparent 14.8% 100%),
+    linear-gradient(90deg, transparent 0 83%, rgba(40,255,120,.45) 83% 83.7%, transparent 83.7% 100%),
+    linear-gradient(90deg, transparent 0 91%, rgba(60,110,255,.5) 91% 92%, transparent 92% 100%),
+    repeating-linear-gradient(90deg, rgba(255,40,40,.1) 0 1px, rgba(40,255,60,.08) 1px 2px, rgba(60,90,255,.12) 2px 3px),
+    repeating-linear-gradient(0deg, rgba(0,0,0,.22) 0 1px, transparent 1px 3px); }
+.ios-notif::after { content: ""; position: absolute; left: 0; right: 0; top: 40%; height: 9px; pointer-events: none; z-index: 3; background: rgba(255,255,255,.18); mix-blend-mode: screen; opacity: 0; }
+.ios-notif.show::after { animation: ntGlitch 2.4s steps(1) infinite; }
+.ios-notif.show { animation: ntJit 2.4s steps(1) infinite; }
+@keyframes ntGlitch { 0%,100% { opacity: 0; } 8% { opacity: 1; top: 18%; } 10% { opacity: 0; } 52% { opacity: 1; top: 66%; } 54% { opacity: 0; } 83% { opacity: 1; top: 40%; height: 4px; } 85% { opacity: 0; } }
+@keyframes ntJit { 0%,100% { filter: none; } 8% { filter: hue-rotate(40deg) contrast(1.15); } 10% { filter: none; } 52% { filter: hue-rotate(-40deg) brightness(1.12); } 54% { filter: none; } }
+.ios-notif.show { transform: translate(-50%, 0); opacity: 1; }
+.nt-head { display: flex; align-items: center; gap: 9px; margin-bottom: 7px; }
+.nt-ic { width: 24px; height: 24px; flex: none; }
+.nt-ic svg { display: block; width: 100%; height: 100%; }
+.nt-app { font-size: 13px; letter-spacing: .01em; color: #1f1f1f; flex: 1; }
+.nt-time { font-size: 13px; color: #2a2a2a; }
+.nt-title { font-size: 15.5px; font-weight: 700; line-height: 1.3; }
+.nt-body { font-size: 15.5px; line-height: 1.32; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+</style>
+
+<header class="top">
+  <div class="in">
+    <a class="logo" href="#" aria-label="낙원 홈">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M16 25V13M16 18c-4 0-6-2-6.5-6 4 0 6.5 2 6.5 6zm0 0c4 0 6-2 6.5-6-4 0-6.5 2-6.5 6z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      낙원
+    </a>
+    <form class="search" id="searchForm" role="search">
+      <button type="button" class="ham" aria-label="메뉴" data-toast="준비 중인 메뉴입니다">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <input id="q" type="search" placeholder="갤러리 &amp; 통합검색" autocomplete="off" aria-label="검색">
+      <button class="go" type="submit" aria-label="검색">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      </button>
+      <a class="recent" href="https://posty.pe/psxac1xkd" target="_blank" rel="noopener">최근 방문</a>
+    </form>
+  </div>
+</header>
+<nav class="menu" aria-label="주요 메뉴">
+  <div class="in">
+    <a href="#" class="on">갤러리</a><a href="#" data-toast="준비 중입니다">마이너갤</a><a href="#" data-toast="준비 중입니다">미니갤</a><a href="#" data-toast="준비 중입니다">인물갤</a><a href="#" data-toast="준비 중입니다">갤로그</a><a href="#" data-toast="준비 중입니다">이벤트</a>
+  </div>
+</nav>
+
+<section class="gal">
+  <div class="in">
+    <h1>낙원정신병동</h1>
+    <span class="badge-m" title="마이너 갤러리">m</span>
+    <span class="count">(1,284)</span>
+    <span class="sp"></span>
+    <svg class="info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 11v6M12 7.5v.5"/></svg>
+    <button class="lnk" data-toast="설정 권한이 없습니다">설정<span class="nd">N</span></button>
+    <button class="lnk" data-toast="연관 갤러리가 없습니다">연관</button>
+    <button class="write" id="writeTop">글쓰기</button>
+  </div>
+</section>
+
+<div id="listView">
+  <div class="tabs">
+    <div class="in" role="tablist">
+      <button class="t on" role="tab" data-tab="all">전체</button>
+      <button class="t" role="tab" data-tab="hot">개념글</button>
+      <button class="t" role="tab" data-tab="notice">공지</button>
+      <div class="n">30개
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+    </div>
+  </div>
+  <div class="cats">
+    <div class="in" id="cats"></div>
+  </div>
+  <div class="list"><div class="wrapmax" id="rows"></div></div>
+  <div class="in"><div class="pager" id="pager"></div></div>
+  <button class="fab" id="writeFab" aria-label="글쓰기">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16.5 4.5a2.1 2.1 0 013 3L8 19l-4 1z"/><path d="M14 7l3 3"/></svg>
+  </button>
+</div>
+
+<div id="postView" hidden>
+  <div class="pv"><div class="in" id="postBody"></div></div>
+  <div class="list"><div class="wrapmax" id="rows2"></div></div>
+</div>
+
+<div id="writeView" hidden>
+  <div class="wv"><div class="in" id="writeBody"></div></div>
+</div>
+
+<div class="foot in">낙원정신병동 갤러리는 팬 창작물 속 가상의 공간입니다.</div>
+<div class="glass-dark" aria-hidden="true"><svg viewBox="0 0 1125 2000" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><rect x="0" y="0" width="1125" height="300" fill="#000" opacity=".3"/><rect x="650" y="660" width="475" height="330" fill="#000" opacity=".2"/><rect x="0" y="1140" width="420" height="250" fill="#000" opacity=".2"/><rect x="560" y="1690" width="565" height="310" fill="#000" opacity=".18"/></svg></div><div class="broken-screen" aria-hidden="true"><svg viewBox="0 0 1125 2000" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><defs><filter id="glow" x="-5%" y="-5%" width="110%" height="110%"><feGaussianBlur stdDeviation="5"/></filter><radialGradient id="hot"><stop offset="0" stop-color="#fff" stop-opacity=".95"/><stop offset=".25" stop-color="#9fb4ff" stop-opacity=".55"/><stop offset="1" stop-color="#4060ff" stop-opacity="0"/></radialGradient><g id="C" fill="none"><path vector-effect="non-scaling-stroke" d="M905,1620 L1074,1640 L1179,1650 L1281,1662 L1451,1689 L1564,1708 L1733,1746 L1837,1786 L1986,1838 L2067,1892 L2257,1919 L2331,1969 L2425,1963 L2534,1923 L2649,2002 L2810,2026 L2936,2070 L3077,2057 L3177,2167 L3264,2285 L3367,2313" stroke-width="1" opacity="0.72" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1076,1652 L1200,1677 L1279,1700 L1425,1736 L1526,1736 L1630,1732 L1724,1771 L1858,1825 L2021,1829 L2184,1842 L2358,1923 L2467,1991 L2620,2086 L2736,2196 L2797,2261 L2890,2333 L2944,2413 L3094,2500 L3195,2462 L3248,2530" stroke-width="1.3" opacity="0.74" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1008,1645 L1123,1676 L1256,1722 L1375,1741 L1561,1794 L1624,1829 L1754,1866 L1947,1893 L2124,1931 L2251,1920 L2358,1997 L2413,2059 L2491,2146 L2637,2146 L2771,2141 L2833,2181 L2972,2224 L3161,2199 L3277,2211 L3371,2321" stroke-width="0.8" opacity="0.75" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L990,1641 L1059,1654 L1135,1676 L1209,1694 L1357,1733 L1440,1771 L1566,1793 L1674,1789 L1761,1787 L1842,1842 L1937,1895 L2112,1944 L2303,1994 L2369,2059 L2494,2029 L2674,2124 L2842,2231 L2905,2264 L3040,2272 L3123,2265 L3294,2386" stroke-width="1" opacity="0.59" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1016,1671 L1151,1735 L1289,1792 L1406,1841 L1486,1852 L1631,1903 L1780,1976 L1894,2030 L2006,2048 L2164,2132 L2252,2161 L2330,2190 L2418,2210 L2504,2247 L2647,2229 L2754,2272 L2936,2256 L3040,2374 L3165,2385 L3246,2472 L3326,2571" stroke-width="1" opacity="0.72" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1004,1668 L1162,1732 L1266,1791 L1433,1856 L1537,1928 L1634,1973 L1701,2011 L1886,2072 L2042,2174 L2230,2210 L2408,2268 L2580,2316 L2676,2416 L2765,2489 L2876,2613 L3021,2586 L3208,2625" stroke-width="1" opacity="0.45" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L975,1656 L1046,1697 L1196,1767 L1274,1808 L1383,1858 L1474,1895 L1607,1967 L1703,1995 L1856,2032 L1960,2122 L2049,2187 L2193,2209 L2347,2337 L2482,2355 L2643,2436 L2768,2495 L2859,2571 L3003,2667 L3146,2761" stroke-width="1.3" opacity="0.50" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1049,1711 L1133,1767 L1209,1820 L1296,1855 L1407,1896 L1575,1963 L1739,2066 L1896,2131 L2023,2228 L2131,2312 L2226,2393 L2310,2464 L2448,2528 L2565,2529 L2746,2560 L2853,2699 L2981,2815 L3010,2938 L3082,3033" stroke-width="0.8" opacity="0.58" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1008,1700 L1091,1768 L1209,1856 L1311,1935 L1390,1995 L1529,2103 L1570,2166 L1722,2276 L1815,2302 L1943,2423 L2014,2504 L2135,2608 L2177,2686 L2273,2724 L2299,2809 L2331,2923 L2373,3057 L2524,3130 L2573,3300 L2736,3357" stroke-width="1" opacity="0.77" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L960,1666 L1093,1766 L1256,1882 L1312,1931 L1452,2050 L1533,2114 L1652,2240 L1753,2345 L1869,2489 L2006,2569 L2057,2638 L2211,2705 L2369,2828 L2498,2860 L2596,2924 L2709,3012 L2819,3095 L2934,3083" stroke-width="1.3" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1018,1738 L1099,1834 L1148,1896 L1262,2022 L1339,2072 L1468,2198 L1530,2265 L1671,2388 L1732,2478 L1897,2583 L1964,2619 L2024,2674 L2155,2769 L2187,2843 L2259,2869 L2311,3001 L2472,3057 L2478,3176 L2546,3291 L2615,3409 L2725,3494" stroke-width="1.3" opacity="0.58" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L979,1725 L1030,1806 L1114,1935 L1201,2055 L1258,2123 L1389,2257 L1430,2357 L1507,2496 L1610,2586 L1735,2710 L1760,2799 L1907,2906 L2026,2999 L2101,3193 L2171,3240 L2261,3363 L2396,3455 L2486,3478 L2480,3591" stroke-width="1" opacity="0.60" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L951,1685 L1065,1833 L1144,1914 L1224,2033 L1315,2184 L1411,2317 L1528,2466 L1628,2600 L1736,2710 L1882,2813 L1959,2859 L2038,2921 L2131,3059 L2151,3137 L2167,3263 L2291,3411 L2404,3500 L2479,3626" stroke-width="1" opacity="0.70" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L967,1717 L1045,1836 L1111,1921 L1189,2060 L1297,2227 L1400,2373 L1466,2479 L1525,2632 L1659,2782 L1683,2888 L1781,2937 L1831,3125 L1895,3214 L2060,3324 L2134,3482 L2231,3515 L2224,3640 L2284,3716" stroke-width="0.8" opacity="0.64" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L934,1725 L961,1861 L1006,1992 L1043,2130 L1045,2223 L1044,2311 L1054,2410 L1057,2534 L1075,2644 L1092,2802 L1159,2938 L1210,3001 L1228,3144 L1238,3282 L1255,3355 L1230,3460 L1272,3553 L1278,3721 L1335,3856 L1390,4002 L1488,4113" stroke-width="1" opacity="0.62" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L943,1773 L966,1846 L999,1935 L1035,2059 L1093,2227 L1108,2324 L1149,2424 L1161,2516 L1232,2611 L1293,2761 L1285,2840 L1303,2947 L1276,3029 L1286,3145 L1290,3328 L1319,3438 L1319,3629 L1313,3721 L1401,3842 L1441,4019 L1395,4203" stroke-width="1" opacity="0.49" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L877,1715 L823,1877 L783,1981 L714,2159 L643,2294 L579,2436 L543,2586 L479,2702 L486,2802 L498,2886 L433,3017 L360,3189 L371,3306 L377,3427 L292,3599 L345,3715 L367,3845 L411,4059 L489,4179" stroke-width="1" opacity="0.75" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L849,1719 L780,1849 L752,1922 L681,2059 L590,2233 L538,2407 L481,2517 L359,2675 L270,2843 L147,2998 L97,3093 L0,3231 L-80,3364 L-158,3496 L-286,3588 L-441,3692 L-524,3845" stroke-width="1.3" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L867,1686 L815,1765 L783,1835 L738,1915 L645,2050 L554,2215 L493,2295 L422,2411 L352,2451 L317,2572 L306,2677 L221,2729 L101,2823 L13,2852 L-101,3015 L-154,3081 L-208,3182 L-228,3331 L-220,3439 L-202,3543 L-302,3715 L-475,3811" stroke-width="1" opacity="0.74" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L814,1774 L724,1907 L680,1991 L612,2096 L496,2254 L436,2298 L394,2408 L358,2527 L313,2620 L236,2751 L165,2878 L52,3022 L-82,3111 L-215,3259 L-275,3409 L-410,3461 L-428,3609 L-583,3692" stroke-width="0.8" opacity="0.66" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L827,1754 L728,1899 L622,2066 L582,2123 L483,2248 L393,2391 L289,2534 L189,2662 L81,2816 L-9,2956 L-39,3109 L-78,3187 L-80,3294 L-121,3395 L-193,3456 L-316,3607 L-301,3738 L-363,3783" stroke-width="1" opacity="0.48" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L841,1702 L746,1824 L695,1881 L639,1955 L597,2041 L509,2187 L405,2291 L324,2405 L218,2547 L170,2661 L86,2803 L78,2887 L73,2998 L55,3147 L30,3267 L-69,3367 L-170,3455 L-212,3548 L-341,3640 L-426,3672 L-569,3808" stroke-width="1.3" opacity="0.78" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L849,1681 L741,1788 L645,1907 L570,2019 L439,2166 L363,2276 L346,2354 L243,2421 L165,2580 L101,2649 L34,2770 L-40,2856 L-93,2911 L-152,3051 L-177,3214 L-216,3318 L-262,3427 L-331,3615 L-480,3703" stroke-width="1.3" opacity="0.60" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L783,1744 L699,1835 L582,1969 L507,2073 L424,2166 L380,2252 L294,2361 L170,2443 L93,2505 L3,2603 L-95,2715 L-176,2775 L-234,2899 L-318,3041 L-380,3200 L-493,3363 L-483,3482 L-600,3525 L-643,3611" stroke-width="0.8" opacity="0.66" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L781,1746 L651,1865 L579,1933 L452,2029 L355,2117 L285,2183 L242,2252 L109,2375 L-11,2475 L-86,2590 L-191,2730 L-311,2850 L-445,2927 L-567,3027 L-713,3097 L-894,3195 L-953,3254 L-1129,3334" stroke-width="1" opacity="0.81" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L761,1700 L685,1752 L552,1838 L406,1911 L259,1990 L113,2060 L-19,2170 L-176,2270 L-234,2341 L-321,2453 L-365,2517 L-484,2633 L-612,2723 L-646,2817 L-752,2870 L-883,2999 L-936,3076 L-1070,3135 L-1134,3237" stroke-width="1.3" opacity="0.83" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L798,1674 L619,1762 L467,1824 L331,1909 L189,1980 L33,2081 L-68,2124 L-175,2152 L-286,2257 L-347,2292 L-473,2387 L-635,2476 L-792,2589 L-949,2617 L-1027,2699 L-1145,2781 L-1318,2841" stroke-width="1" opacity="0.63" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L834,1607 L764,1592 L574,1566 L379,1522 L212,1511 L54,1458 L-16,1442 L-199,1428 L-392,1441 L-563,1408 L-716,1334 L-883,1351 L-1066,1374 L-1168,1289 L-1256,1333 L-1366,1337 L-1494,1303 L-1658,1212" stroke-width="1" opacity="0.38" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L816,1588 L717,1553 L614,1525 L518,1507 L400,1475 L290,1436 L184,1382 L67,1379 L-47,1306 L-137,1315 L-219,1281 L-397,1180 L-589,1149 L-716,1066 L-795,1070 L-990,1072 L-1159,960 L-1324,884 L-1377,799 L-1456,802 L-1606,648" stroke-width="0.8" opacity="0.68" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L841,1593 L693,1532 L538,1473 L361,1418 L236,1366 L92,1313 L-21,1306 L-169,1283 L-361,1277 L-483,1220 L-556,1148 L-717,1041 L-817,945 L-961,873 L-1149,878 L-1286,743 L-1327,660 L-1478,619" stroke-width="1" opacity="0.84" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L787,1573 L702,1543 L598,1493 L456,1423 L285,1368 L120,1305 L28,1306 L-79,1247 L-206,1191 L-293,1176 L-381,1181 L-530,1095 L-690,1090 L-886,1103 L-1093,1119 L-1260,1064 L-1424,1096 L-1557,1001" stroke-width="1" opacity="0.56" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L817,1528 L750,1445 L663,1344 L582,1260 L477,1140 L371,1013 L244,894 L99,804 L22,719 L-28,601 L-138,493 L-265,391 L-335,258 L-438,169 L-569,43 L-588,-104 L-712,-134 L-734,-228 L-837,-241" stroke-width="1" opacity="0.70" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L838,1541 L741,1432 L631,1314 L535,1197 L427,1088 L322,996 L183,898 L49,807 L-35,673 L-146,541 L-215,445 L-294,408 L-340,314 L-451,233 L-535,209 L-683,133 L-743,-3 L-747,-100 L-903,-207" stroke-width="1" opacity="0.59" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L859,1559 L745,1399 L653,1298 L584,1217 L491,1110 L461,1039 L361,935 L272,816 L175,743 L130,626 L-5,534 L-24,424 L-114,358 L-187,202 L-262,29 L-360,-104 L-411,-252 L-543,-382 L-590,-500" stroke-width="0.8" opacity="0.68" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L806,1465 L712,1332 L661,1247 L611,1176 L486,1035 L392,913 L327,847 L308,770 L180,618 L49,470 L-76,323 L-194,216 L-306,161 L-366,107 L-486,49 L-557,-87 L-619,-228 L-695,-367" stroke-width="1" opacity="0.56" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L860,1541 L818,1477 L729,1323 L698,1261 L613,1110 L532,943 L510,855 L468,750 L438,593 L406,417 L314,253 L258,151 L236,-41 L138,-96 L60,-148 L-35,-221 L-164,-326 L-130,-455 L-265,-556 L-376,-664" stroke-width="1" opacity="0.60" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L822,1449 L763,1309 L679,1146 L592,1015 L500,851 L444,760 L357,587 L234,458 L189,291 L119,115 L30,-44 L34,-176 L-56,-269 L-102,-449 L-215,-501 L-271,-551 L-416,-660" stroke-width="1.3" opacity="0.43" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L862,1530 L775,1358 L723,1218 L683,1103 L635,944 L565,830 L535,675 L426,517 L335,370 L322,211 L244,135 L137,23 L12,-102 L-29,-180 L-127,-235 L-271,-359 L-272,-531 L-403,-597" stroke-width="1" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L883,1529 L849,1402 L805,1275 L800,1197 L789,1120 L747,1036 L700,958 L631,820 L600,749 L572,581 L539,477 L550,349 L475,163 L486,49 L420,-54 L440,-133 L367,-228 L363,-313 L372,-506 L252,-674 L293,-867" stroke-width="1" opacity="0.50" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L883,1521 L837,1352 L819,1238 L791,1125 L751,1052 L731,905 L687,713 L674,517 L668,334 L681,245 L645,165 L668,-13 L652,-142 L633,-213 L559,-334 L501,-424 L511,-528 L424,-684 L336,-798 L340,-885" stroke-width="0.8" opacity="0.75" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L941,1483 L964,1414 L990,1319 L997,1245 L1045,1114 L1110,955 L1166,769 L1157,666 L1152,564 L1224,397 L1285,339 L1367,234 L1453,109 L1465,-51 L1482,-168 L1484,-285 L1521,-355 L1587,-460 L1550,-591 L1579,-748 L1540,-894" stroke-width="0.8" opacity="0.39" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L926,1542 L950,1454 L970,1349 L981,1258 L995,1102 L1039,912 L1063,801 L1052,685 L1027,595 L1047,482 L1098,298 L1086,197 L1085,23 L1042,-178 L1079,-314 L1112,-390 L1066,-576 L1001,-663 L988,-758 L944,-886" stroke-width="1" opacity="0.37" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L931,1532 L960,1407 L995,1218 L1044,1024 L1086,929 L1130,815 L1151,735 L1178,661 L1188,466 L1203,341 L1192,186 L1200,-8 L1293,-154 L1288,-339 L1347,-448 L1382,-630 L1501,-783 L1529,-947" stroke-width="1" opacity="0.41" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L939,1534 L987,1429 L1053,1296 L1091,1231 L1153,1123 L1210,980 L1257,818 L1327,744 L1409,638 L1480,509 L1545,452 L1542,347 L1616,264 L1672,73 L1800,-27 L1893,-104 L1928,-280 L2044,-311 L2117,-495 L2290,-601" stroke-width="1" opacity="0.45" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L946,1530 L994,1418 L1067,1239 L1116,1167 L1166,1053 L1265,885 L1343,711 L1401,555 L1445,421 L1484,321 L1509,248 L1626,97 L1702,48 L1723,-86 L1821,-142 L1859,-307 L1963,-415 L1937,-565 L2084,-660" stroke-width="1" opacity="0.66" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1014,1467 L1092,1371 L1222,1223 L1304,1117 L1349,1028 L1428,951 L1533,781 L1561,701 L1647,642 L1739,507 L1850,426 L1921,291 L2077,187 L2157,11 L2234,-66 L2297,-257 L2409,-275 L2532,-432" stroke-width="1" opacity="0.59" stroke-dasharray="5 2"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1013,1464 L1065,1389 L1184,1236 L1263,1117 L1369,946 L1486,817 L1565,658 L1646,513 L1672,411 L1730,276 L1765,92 L1854,-5 L1869,-149 L1864,-288 L1848,-457 L1969,-593 L1992,-743" stroke-width="0.8" opacity="0.72" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L969,1549 L1087,1419 L1197,1321 L1271,1237 L1393,1147 L1458,1093 L1535,986 L1652,826 L1772,668 L1829,605 L1957,501 L2065,365 L2149,260 L2278,107 L2296,-6 L2341,-161 L2360,-269 L2387,-407" stroke-width="0.8" opacity="0.63" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1007,1537 L1102,1462 L1221,1382 L1353,1263 L1500,1159 L1591,1110 L1703,1015 L1826,871 L1968,752 L2119,634 L2241,594 L2329,565 L2400,496 L2474,380 L2579,396 L2729,381 L2800,268 L3004,245" stroke-width="1" opacity="0.61" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1003,1554 L1169,1445 L1269,1394 L1365,1351 L1517,1280 L1637,1248 L1794,1126 L1872,1082 L1977,969 L2148,915 L2242,791 L2373,638 L2417,534 L2534,484 L2586,421 L2706,330 L2823,345 L2918,238 L3074,204" stroke-width="1" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1061,1537 L1229,1462 L1349,1420 L1469,1348 L1616,1289 L1692,1248 L1803,1194 L1976,1112 L2107,1096 L2292,1021 L2436,959 L2580,841 L2649,787 L2744,729 L2882,617 L2964,622 L3117,510 L3240,418" stroke-width="1.3" opacity="0.56" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M905,1620 L1022,1596 L1098,1573 L1228,1548 L1337,1537 L1435,1498 L1573,1466 L1753,1437 L1898,1364 L1987,1346 L2056,1308 L2186,1235 L2264,1178 L2450,1104 L2569,1046 L2658,971 L2807,942 L3011,960 L3111,868 L3290,831" stroke-width="1" opacity="0.80" stroke-dasharray="none"/><path vector-effect="non-scaling-stroke" d="M949,1629 L947,1629 L952,1630 L950,1630" stroke-width="0.9" opacity="0.45" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M950,1630 L946,1629 L949,1630 L949,1630" stroke-width="0.9" opacity="0.42" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M947,1638 L949,1639 L944,1638 L945,1638" stroke-width="0.9" opacity="0.65" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M931,1655 L932,1656 L933,1657 L931,1655" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M932,1656 L929,1655 L928,1656 L929,1660" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M929,1660 L924,1658 L922,1663 L918,1666" stroke-width="0.9" opacity="0.70" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M917,1664 L917,1666 L916,1666 L914,1664" stroke-width="0.9" opacity="0.41" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M883,1657 L879,1660 L881,1656 L879,1657" stroke-width="0.9" opacity="0.51" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M878,1658 L875,1657 L874,1655 L876,1650" stroke-width="0.9" opacity="0.44" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M872,1654 L872,1653 L874,1651 L872,1652" stroke-width="0.9" opacity="0.69" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M874,1649 L872,1646 L870,1643 L863,1641" stroke-width="0.9" opacity="0.42" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M864,1641 L867,1639 L862,1641 L866,1638" stroke-width="0.9" opacity="0.68" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M864,1639 L864,1630 L863,1621 L863,1611" stroke-width="0.9" opacity="0.38" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M863,1611 L862,1609 L865,1607 L861,1603" stroke-width="0.9" opacity="0.44" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M862,1602 L864,1602 L862,1602 L865,1602" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M864,1602 L865,1596 L871,1592 L874,1587" stroke-width="0.9" opacity="0.55" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M875,1584 L875,1582 L876,1582 L879,1584" stroke-width="0.9" opacity="0.54" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M881,1585 L880,1581 L882,1582 L882,1579" stroke-width="0.9" opacity="0.67" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M881,1578 L882,1578 L885,1583 L885,1582" stroke-width="0.9" opacity="0.49" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M883,1578 L884,1578 L884,1578 L885,1580" stroke-width="0.9" opacity="0.38" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M893,1578 L894,1579 L893,1575 L894,1576" stroke-width="0.9" opacity="0.57" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M895,1578 L901,1572 L909,1575 L916,1576" stroke-width="0.9" opacity="0.56" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M921,1581 L924,1576 L923,1578 L923,1579" stroke-width="0.9" opacity="0.60" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M924,1577 L925,1583 L930,1580 L931,1584" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M933,1582 L930,1586 L932,1584 L933,1582" stroke-width="0.9" opacity="0.43" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M930,1586 L933,1584 L932,1588 L936,1585" stroke-width="0.9" opacity="0.41" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M933,1588 L936,1588 L938,1589 L938,1593" stroke-width="0.9" opacity="0.42" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M940,1591 L941,1592 L940,1596 L944,1595" stroke-width="0.9" opacity="0.49" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M941,1598 L946,1596 L942,1600 L946,1600" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M994,1638 L997,1639 L1003,1641 L995,1640" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M982,1673 L977,1671 L979,1675 L978,1676" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M980,1677 L983,1683 L981,1684 L978,1685" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M974,1681 L973,1684 L968,1683 L969,1689" stroke-width="0.9" opacity="0.70" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M968,1687 L967,1691 L963,1691 L962,1695" stroke-width="0.9" opacity="0.61" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M966,1701 L961,1701 L954,1696 L951,1696" stroke-width="0.9" opacity="0.69" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M955,1703 L946,1702 L938,1706 L932,1716" stroke-width="0.9" opacity="0.37" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M930,1707 L928,1708 L928,1717 L926,1718" stroke-width="0.9" opacity="0.54" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M835,1688 L832,1690 L840,1683 L833,1689" stroke-width="0.9" opacity="0.63" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M835,1687 L827,1681 L821,1674 L826,1660" stroke-width="0.9" opacity="0.60" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M815,1666 L818,1663 L820,1661 L820,1660" stroke-width="0.9" opacity="0.52" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M808,1600 L810,1595 L815,1591 L814,1585" stroke-width="0.9" opacity="0.32" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M817,1586 L818,1585 L811,1581 L821,1584" stroke-width="0.9" opacity="0.39" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M814,1582 L821,1584 L815,1581 L813,1580" stroke-width="0.9" opacity="0.54" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M846,1547 L842,1540 L848,1546 L847,1541" stroke-width="0.9" opacity="0.43" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M859,1538 L858,1534 L861,1538 L863,1540" stroke-width="0.9" opacity="0.44" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M861,1535 L862,1536 L863,1535 L864,1535" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M928,1530 L930,1525 L928,1534 L931,1525" stroke-width="0.9" opacity="0.34" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M943,1528 L944,1527 L944,1530 L945,1531" stroke-width="0.9" opacity="0.67" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M970,1545 L967,1556 L975,1555 L980,1558" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M988,1567 L982,1575 L986,1576 L990,1578" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M988,1579 L991,1587 L993,1596 L998,1604" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M995,1605 L999,1613 L995,1621 L996,1630" stroke-width="0.9" opacity="0.52" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1071,1638 L1073,1643 L1072,1648 L1057,1650" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1071,1653 L1053,1651 L1055,1653 L1056,1654" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1045,1680 L1058,1687 L1060,1689 L1049,1685" stroke-width="0.9" opacity="0.45" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1032,1708 L1028,1708 L1037,1718 L1037,1721" stroke-width="0.9" opacity="0.39" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1030,1717 L1028,1719 L1025,1721 L1020,1722" stroke-width="0.9" opacity="0.69" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1027,1728 L1028,1736 L1021,1736 L1008,1730" stroke-width="0.9" opacity="0.39" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M990,1759 L974,1760 L966,1778 L946,1764" stroke-width="0.9" opacity="0.50" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M951,1783 L947,1782 L942,1780 L939,1781" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M856,1770 L843,1777 L833,1775 L825,1769" stroke-width="0.9" opacity="0.60" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M829,1748 L829,1748 L818,1766 L826,1753" stroke-width="0.9" opacity="0.50" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M827,1751 L817,1759 L815,1754 L809,1754" stroke-width="0.9" opacity="0.61" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M809,1754 L809,1741 L792,1749 L799,1729" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M788,1741 L795,1731 L796,1727 L795,1726" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M783,1738 L792,1729 L785,1735 L790,1730" stroke-width="0.9" opacity="0.51" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M768,1690 L753,1695 L765,1687 L755,1690" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M752,1692 L746,1657 L736,1623 L749,1588" stroke-width="0.9" opacity="0.49" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M755,1590 L759,1582 L746,1569 L762,1565" stroke-width="0.9" opacity="0.65" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M748,1560 L751,1559 L756,1559 L755,1556" stroke-width="0.9" opacity="0.59" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M766,1561 L764,1560 L760,1558 L753,1554" stroke-width="0.9" opacity="0.44" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M800,1507 L806,1509 L808,1506 L807,1500" stroke-width="0.9" opacity="0.53" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M807,1499 L812,1502 L807,1491 L807,1487" stroke-width="0.9" opacity="0.54" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M816,1499 L818,1499 L817,1495 L812,1485" stroke-width="0.9" opacity="0.52" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M821,1497 L823,1493 L825,1488 L828,1484" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M822,1473 L833,1489 L826,1472 L829,1475" stroke-width="0.9" opacity="0.55" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M835,1486 L829,1471 L836,1482 L837,1480" stroke-width="0.9" opacity="0.35" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M869,1475 L891,1453 L919,1450 L944,1467" stroke-width="0.9" opacity="0.35" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M947,1455 L946,1462 L946,1468 L949,1463" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M945,1476 L953,1458 L952,1471 L959,1461" stroke-width="0.9" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M953,1477 L959,1471 L962,1472 L965,1475" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M973,1468 L981,1477 L992,1480 L997,1492" stroke-width="0.9" opacity="0.53" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1000,1489 L993,1499 L995,1497 L995,1498" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1008,1502 L1010,1512 L1020,1514 L1031,1516" stroke-width="0.9" opacity="0.66" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1035,1512 L1031,1525 L1032,1532 L1050,1529" stroke-width="0.9" opacity="0.39" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1033,1540 L1047,1537 L1046,1544 L1057,1545" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1053,1595 L1056,1608 L1058,1622 L1071,1638" stroke-width="0.9" opacity="0.35" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1149,1646 L1150,1653 L1142,1660 L1135,1666" stroke-width="0.9" opacity="0.55" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1125,1670 L1152,1676 L1134,1672 L1149,1676" stroke-width="0.9" opacity="0.63" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1123,1670 L1123,1684 L1139,1704 L1120,1712" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1133,1717 L1139,1722 L1109,1711 L1111,1713" stroke-width="0.9" opacity="0.68" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1130,1722 L1109,1714 L1132,1726 L1128,1726" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1108,1716 L1112,1732 L1117,1750 L1100,1755" stroke-width="0.9" opacity="0.68" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1099,1769 L1096,1774 L1101,1785 L1095,1788" stroke-width="0.9" opacity="0.37" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1074,1770 L1083,1787 L1065,1780 L1066,1792" stroke-width="0.9" opacity="0.66" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1074,1800 L1055,1792 L1066,1817 L1055,1818" stroke-width="0.9" opacity="0.59" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1045,1805 L1053,1816 L1050,1813 L1048,1811" stroke-width="0.9" opacity="0.63" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1051,1815 L1052,1830 L1030,1811 L1028,1822" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1022,1812 L1016,1845 L986,1831 L966,1835" stroke-width="0.9" opacity="0.59" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M971,1852 L965,1852 L957,1843 L951,1841" stroke-width="0.9" opacity="0.52" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M954,1851 L913,1855 L872,1852 L833,1837" stroke-width="0.9" opacity="0.55" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M825,1862 L815,1848 L802,1842 L796,1822" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M797,1820 L797,1816 L788,1826 L792,1813" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M782,1830 L788,1818 L779,1833 L783,1826" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M779,1832 L780,1830 L789,1816 L785,1821" stroke-width="0.9" opacity="0.67" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M784,1823 L769,1834 L763,1831 L772,1805" stroke-width="0.9" opacity="0.51" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M761,1820 L764,1798 L738,1810 L743,1786" stroke-width="0.9" opacity="0.65" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M739,1781 L737,1782 L729,1789 L733,1784" stroke-width="0.9" opacity="0.55" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M741,1777 L720,1766 L710,1745 L690,1729" stroke-width="0.9" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M702,1723 L689,1727 L681,1728 L684,1724" stroke-width="0.9" opacity="0.45" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M673,1729 L675,1673 L667,1624 L668,1572" stroke-width="0.9" opacity="0.61" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M659,1570 L662,1556 L676,1546 L682,1534" stroke-width="0.9" opacity="0.38" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M686,1535 L696,1537 L687,1530 L689,1528" stroke-width="0.9" opacity="0.68" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M689,1529 L671,1520 L682,1524 L688,1525" stroke-width="0.9" opacity="0.67" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M695,1528 L714,1504 L729,1477 L747,1450" stroke-width="0.9" opacity="0.65" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M732,1433 L744,1439 L742,1428 L746,1424" stroke-width="0.9" opacity="0.69" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M768,1434 L759,1418 L776,1437 L764,1414" stroke-width="0.9" opacity="0.32" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M777,1433 L772,1413 L781,1415 L787,1410" stroke-width="0.9" opacity="0.32" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M968,1372 L966,1386 L968,1388 L969,1390" stroke-width="0.9" opacity="0.60" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M972,1378 L972,1394 L981,1382 L977,1408" stroke-width="0.9" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M980,1398 L982,1408 L995,1388 L1002,1386" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M999,1393 L997,1402 L1006,1388 L1001,1406" stroke-width="0.9" opacity="0.58" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1008,1389 L1022,1399 L1027,1423 L1042,1430" stroke-width="0.9" opacity="0.63" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1037,1436 L1044,1429 L1049,1423 L1041,1436" stroke-width="0.9" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1050,1424 L1058,1424 L1050,1444 L1064,1438" stroke-width="0.9" opacity="0.37" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1102,1457 L1104,1469 L1102,1484 L1095,1501" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1112,1490 L1117,1496 L1121,1504 L1124,1512" stroke-width="0.9" opacity="0.57" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1112,1518 L1117,1540 L1135,1557 L1141,1580" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1154,1578 L1137,1602 L1132,1623 L1146,1645" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1245,1656 L1241,1666 L1219,1673 L1229,1685" stroke-width="0.9" opacity="0.41" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1222,1683 L1218,1685 L1246,1694 L1247,1698" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1259,1701 L1228,1694 L1233,1695 L1245,1698" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1222,1764 L1232,1770 L1227,1770 L1215,1766" stroke-width="0.9" opacity="0.34" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1211,1764 L1187,1772 L1179,1788 L1183,1812" stroke-width="0.9" opacity="0.57" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1173,1826 L1188,1848 L1176,1849 L1145,1832" stroke-width="0.9" opacity="0.61" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1145,1832 L1150,1850 L1152,1868 L1134,1865" stroke-width="0.9" opacity="0.65" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1131,1861 L1127,1874 L1134,1900 L1114,1895" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1102,1879 L1103,1882 L1111,1894 L1103,1884" stroke-width="0.9" opacity="0.69" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1110,1893 L1104,1904 L1081,1890 L1086,1918" stroke-width="0.9" opacity="0.52" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1071,1894 L1055,1926 L1031,1948 L995,1939" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M992,1928 L989,1946 L984,1957 L971,1935" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M975,1954 L916,1953 L859,1946 L801,1936" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M741,1924 L735,1927 L729,1928 L740,1902" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M734,1911 L741,1899 L732,1912 L733,1910" stroke-width="0.9" opacity="0.54" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M673,1845 L644,1871 L672,1844 L643,1871" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M661,1854 L639,1830 L625,1799 L612,1769" stroke-width="0.9" opacity="0.45" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M591,1767 L555,1701 L542,1626 L582,1554" stroke-width="0.9" opacity="0.52" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M611,1496 L602,1490 L577,1478 L573,1475" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M586,1481 L599,1434 L641,1405 L665,1361" stroke-width="0.9" opacity="0.60" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M658,1354 L688,1376 L686,1362 L702,1369" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M683,1347 L683,1337 L696,1346 L700,1342" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M714,1361 L718,1360 L698,1325 L722,1353" stroke-width="0.9" opacity="0.43" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M715,1344 L717,1328 L739,1345 L740,1327" stroke-width="0.9" opacity="0.38" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M745,1336 L730,1302 L742,1317 L740,1303" stroke-width="0.9" opacity="0.43" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M740,1303 L741,1298 L749,1308 L749,1301" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M762,1328 L779,1320 L797,1312 L806,1273" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M822,1288 L878,1286 L932,1287 L984,1309" stroke-width="0.9" opacity="0.60" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M984,1310 L997,1270 L993,1294 L993,1303" stroke-width="0.9" opacity="0.38" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1018,1286 L1024,1292 L1020,1322 L1041,1290" stroke-width="0.9" opacity="0.53" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1040,1294 L1032,1320 L1042,1305 L1044,1309" stroke-width="0.9" opacity="0.61" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1041,1316 L1074,1301 L1076,1345 L1117,1325" stroke-width="0.9" opacity="0.56" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1118,1376 L1134,1384 L1145,1398 L1180,1392" stroke-width="0.9" opacity="0.60" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1223,1463 L1207,1505 L1211,1536 L1250,1561" stroke-width="0.9" opacity="0.35" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1241,1563 L1266,1592 L1244,1624 L1260,1658" stroke-width="0.9" opacity="0.65" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1383,1729 L1380,1728 L1356,1723 L1360,1724" stroke-width="0.9" opacity="0.37" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1299,1799 L1327,1814 L1330,1818 L1307,1810" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1307,1898 L1299,1902 L1260,1883 L1261,1894" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1287,1914 L1246,1895 L1265,1924 L1245,1921" stroke-width="0.9" opacity="0.38" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1227,1905 L1223,1920 L1215,1930 L1219,1956" stroke-width="0.9" opacity="0.69" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1210,1946 L1195,1952 L1215,2000 L1174,1974" stroke-width="0.9" opacity="0.53" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1182,1984 L1190,1997 L1192,2002 L1170,1974" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1197,2010 L1181,2014 L1159,2008 L1138,2003" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1152,2026 L1120,2058 L1064,2032 L1032,2068" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M768,2036 L726,2072 L713,2034 L690,2019" stroke-width="0.9" opacity="0.49" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M693,2013 L693,2002 L676,2022 L661,2035" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M661,2035 L675,2010 L675,2009 L670,2016" stroke-width="0.9" opacity="0.41" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M587,1928 L562,1950 L579,1933 L590,1922" stroke-width="0.9" opacity="0.41" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M497,1828 L512,1815 L506,1813 L467,1825" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M496,1812 L426,1731 L477,1627 L448,1527" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M475,1532 L446,1500 L475,1481 L466,1450" stroke-width="0.9" opacity="0.59" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M504,1465 L461,1443 L455,1435 L457,1430" stroke-width="0.9" opacity="0.45" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M489,1444 L492,1443 L463,1429 L482,1436" stroke-width="0.9" opacity="0.68" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M476,1433 L509,1379 L554,1335 L601,1292" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M571,1260 L585,1259 L613,1276 L634,1286" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M634,1286 L627,1266 L610,1232 L642,1263" stroke-width="0.9" opacity="0.67" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M645,1267 L647,1262 L628,1226 L630,1220" stroke-width="0.9" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M683,1226 L685,1219 L700,1238 L703,1234" stroke-width="0.9" opacity="0.34" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M681,1190 L708,1234 L687,1183 L703,1206" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M693,1186 L720,1177 L752,1184 L772,1151" stroke-width="0.9" opacity="0.54" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1030,1172 L1035,1182 L1044,1180 L1051,1188" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1047,1200 L1071,1162 L1074,1182 L1091,1170" stroke-width="0.9" opacity="0.32" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1080,1195 L1088,1189 L1099,1173 L1096,1193" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1177,1242 L1163,1265 L1165,1264 L1161,1273" stroke-width="0.9" opacity="0.41" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1298,1372 L1296,1392 L1328,1392 L1329,1411" stroke-width="0.9" opacity="0.56" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1329,1411 L1363,1446 L1358,1496 L1384,1539" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1387,1538 L1353,1585 L1396,1626 L1379,1670" stroke-width="0.9" opacity="0.58" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1517,1685 L1493,1700 L1538,1726 L1530,1745" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1505,1757 L1483,1752 L1452,1745 L1456,1746" stroke-width="0.9" opacity="0.59" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1443,1865 L1484,1887 L1437,1868 L1420,1864" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1410,1859 L1403,1889 L1390,1917 L1388,1954" stroke-width="0.9" opacity="0.42" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1401,1962 L1422,1991 L1381,1974 L1397,1999" stroke-width="0.9" opacity="0.59" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1379,1985 L1364,1990 L1342,1988 L1372,2033" stroke-width="0.9" opacity="0.66" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1334,2078 L1309,2083 L1282,2082 L1291,2128" stroke-width="0.9" opacity="0.43" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1257,2090 L1240,2099 L1215,2094 L1224,2145" stroke-width="0.9" opacity="0.57" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1222,2141 L1180,2179 L1132,2210 L1062,2177" stroke-width="0.9" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1065,2184 L1058,2214 L1047,2225 L1025,2190" stroke-width="0.9" opacity="0.56" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1033,2228 L924,2189 L824,2192 L725,2167" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M720,2182 L675,2203 L637,2198 L637,2117" stroke-width="0.9" opacity="0.50" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M618,2153 L617,2140 L617,2125 L591,2154" stroke-width="0.9" opacity="0.32" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M584,2167 L600,2138 L585,2161 L589,2152" stroke-width="0.9" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M589,2150 L568,2150 L565,2123 L551,2112" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M554,2109 L535,2085 L510,2069 L485,2052" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M499,2037 L492,2037 L503,2017 L502,2010" stroke-width="0.9" opacity="0.39" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M450,2060 L464,2045 L453,2055 L489,2019" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M491,2017 L443,1984 L388,1951 L391,1881" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M334,1910 L335,1902 L386,1870 L381,1866" stroke-width="0.9" opacity="0.37" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M329,1890 L309,1758 L317,1630 L288,1494" stroke-width="0.9" opacity="0.63" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M353,1508 L301,1462 L348,1440 L379,1417" stroke-width="0.9" opacity="0.43" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M378,1416 L381,1411 L330,1384 L367,1392" stroke-width="0.9" opacity="0.45" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M321,1373 L328,1373 L393,1399 L324,1367" stroke-width="0.9" opacity="0.52" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M383,1392 L369,1294 L452,1252 L513,1197" stroke-width="0.9" opacity="0.47" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M510,1195 L505,1170 L507,1151 L503,1125" stroke-width="0.9" opacity="0.34" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M506,1129 L557,1178 L540,1142 L561,1153" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M555,1145 L534,1104 L547,1111 L579,1146" stroke-width="0.9" opacity="0.60" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M608,1051 L621,1064 L635,1079 L658,1113" stroke-width="0.9" opacity="0.44" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M766,1064 L856,1021 L951,1059 L1056,1028" stroke-width="0.9" opacity="0.37" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1064,1050 L1075,1048 L1088,1044 L1084,1089" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1096,1054 L1099,1084 L1124,1054 L1135,1064" stroke-width="0.9" opacity="0.41" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1160,1050 L1175,1111 L1210,1127 L1275,1106" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1240,1154 L1263,1127 L1274,1116 L1275,1119" stroke-width="0.9" opacity="0.58" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1266,1131 L1276,1145 L1305,1136 L1304,1163" stroke-width="0.9" opacity="0.60" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1363,1241 L1370,1267 L1389,1285 L1421,1295" stroke-width="0.9" opacity="0.35" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1436,1285 L1409,1326 L1406,1350 L1471,1341" stroke-width="0.9" opacity="0.57" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1669,1701 L1650,1722 L1674,1749 L1642,1767" stroke-width="0.9" opacity="0.69" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1631,1787 L1668,1843 L1677,1896 L1593,1913" stroke-width="0.9" opacity="0.51" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1599,1916 L1602,1924 L1626,1941 L1609,1940" stroke-width="0.9" opacity="0.56" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1628,1948 L1655,1965 L1597,1943 L1573,1936" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1578,2085 L1583,2105 L1546,2096 L1520,2093" stroke-width="0.9" opacity="0.66" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1550,2117 L1485,2088 L1514,2133 L1508,2153" stroke-width="0.9" opacity="0.34" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1481,2129 L1434,2118 L1443,2159 L1474,2228" stroke-width="0.9" opacity="0.68" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1382,2257 L1355,2262 L1333,2275 L1324,2309" stroke-width="0.9" opacity="0.67" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1328,2316 L1257,2335 L1183,2341 L1129,2411" stroke-width="0.9" opacity="0.67" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1118,2373 L1103,2386 L1083,2378 L1057,2344" stroke-width="0.9" opacity="0.48" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1058,2351 L931,2395 L801,2355 L649,2397" stroke-width="0.9" opacity="0.53" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M558,2265 L537,2284 L524,2288 L527,2264" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M498,2303 L501,2256 L457,2284 L464,2234" stroke-width="0.9" opacity="0.50" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M329,2176 L379,2127 L319,2184 L366,2137" stroke-width="0.9" opacity="0.33" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M218,1969 L220,1959 L246,1938 L176,1962" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M150,1974 L192,1785 L111,1633 L178,1472" stroke-width="0.9" opacity="0.54" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M118,1460 L159,1425 L140,1374 L222,1356" stroke-width="0.9" opacity="0.55" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M143,1288 L273,1235 L316,1141 L381,1055" stroke-width="0.9" opacity="0.30" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M406,1082 L367,1014 L398,1024 L410,1010" stroke-width="0.9" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M402,1000 L393,970 L454,1028 L462,1019" stroke-width="0.9" opacity="0.42" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M444,995 L443,979 L462,991 L465,979" stroke-width="0.9" opacity="0.65" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M546,932 L561,947 L559,927 L561,915" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M586,967 L605,902 L652,899 L698,891" stroke-width="0.9" opacity="0.55" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M688,856 L712,913 L716,897 L723,888" stroke-width="0.9" opacity="0.51" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M715,859 L838,794 L967,856 L1091,889" stroke-width="0.9" opacity="0.69" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1116,861 L1137,841 L1135,893 L1158,871" stroke-width="0.9" opacity="0.44" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1158,870 L1163,908 L1199,860 L1187,936" stroke-width="0.9" opacity="0.54" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1339,1017 L1376,972 L1390,958 L1393,960" stroke-width="0.9" opacity="0.37" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1397,954 L1385,1006 L1397,1023 L1419,1031" stroke-width="0.9" opacity="0.46" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1600,1182 L1563,1236 L1593,1249 L1560,1296" stroke-width="0.9" opacity="0.38" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1633,1260 L1633,1344 L1663,1412 L1620,1498" stroke-width="0.9" opacity="0.65" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1891,1724 L1873,1752 L1837,1776 L1884,1816" stroke-width="0.9" opacity="0.38" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1910,1849 L1928,1854 L1880,1843 L1867,1841" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1908,1850 L1917,1916 L1827,1949 L1806,2005" stroke-width="0.9" opacity="0.66" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1737,2261 L1632,2206 L1702,2292 L1597,2231" stroke-width="0.9" opacity="0.67" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1623,2254 L1614,2287 L1612,2328 L1610,2374" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1499,2413 L1435,2376 L1459,2468 L1392,2420" stroke-width="0.9" opacity="0.51" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1159,2519 L1137,2517 L1117,2524 L1121,2650" stroke-width="0.9" opacity="0.53" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1104,2569 L940,2653 L759,2656 L611,2512" stroke-width="0.9" opacity="0.66" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M408,2543 L402,2528 L436,2443 L404,2473" stroke-width="0.9" opacity="0.34" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M417,2452 L387,2499 L371,2523 L394,2480" stroke-width="0.9" opacity="0.62" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M424,2430 L427,2423 L412,2448 L409,2452" stroke-width="0.9" opacity="0.67" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M433,2413 L347,2499 L353,2437 L297,2466" stroke-width="0.9" opacity="0.61" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M351,2391 L306,2374 L256,2358 L190,2355" stroke-width="0.9" opacity="0.56" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M223,2322 L243,2287 L214,2302 L200,2302" stroke-width="0.9" opacity="0.39" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M180,2321 L181,2318 L233,2265 L234,2263" stroke-width="0.9" opacity="0.64" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M142,2351 L112,2244 L44,2172 L76,2041" stroke-width="0.9" opacity="0.36" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M59,2050 L-10,2073 L55,2030 L66,2013" stroke-width="0.9" opacity="0.41" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M36,1241 L24,1084 L140,998 L193,853" stroke-width="0.9" opacity="0.61" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M261,927 L255,888 L256,856 L316,895" stroke-width="0.9" opacity="0.31" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M336,847 L360,864 L324,794 L321,770" stroke-width="0.9" opacity="0.56" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M331,784 L350,759 L372,737 L444,802" stroke-width="0.9" opacity="0.40" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M448,743 L443,715 L474,758 L460,710" stroke-width="0.9" opacity="0.66" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1201,743 L1223,742 L1253,721 L1292,684" stroke-width="0.9" opacity="0.45" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1504,810 L1495,865 L1546,843 L1569,859" stroke-width="0.9" opacity="0.57" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1525,910 L1634,870 L1630,949 L1697,965" stroke-width="0.9" opacity="0.49" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M1799,1178 L1812,1275 L1814,1371 L1870,1456" stroke-width="0.9" opacity="0.57" stroke-dasharray="3 1.5"/><path vector-effect="non-scaling-stroke" d="M830,40 C700,260 560,420 470,640 C400,820 300,980 230,1150 C170,1290 120,1400 90,1560" stroke-width="1.3" opacity=".7" stroke-dasharray="6 2"/><path vector-effect="non-scaling-stroke" d="M1125,1010 C940,1030 820,1130 735,1330 C700,1430 715,1520 740,1610" stroke-width="1.3" opacity=".7" stroke-dasharray="6 2"/><path vector-effect="non-scaling-stroke" d="M0,1010 C200,900 380,760 560,560 C640,470 720,420 800,330" stroke-width="1.3" opacity=".7" stroke-dasharray="6 2"/><path vector-effect="non-scaling-stroke" d="M0,1800 C180,1650 380,1600 640,1640" stroke-width="1.3" opacity=".7" stroke-dasharray="6 2"/><path vector-effect="non-scaling-stroke" d="M520,1250 C640,1120 780,1010 1000,970" stroke-width="1.3" opacity=".7" stroke-dasharray="6 2"/><path vector-effect="non-scaling-stroke" d="M300,260 C380,330 420,420 440,520 C455,610 440,700 410,800" stroke-width="1.3" opacity=".7" stroke-dasharray="6 2"/><path vector-effect="non-scaling-stroke" d="M1000,0 C980,150 1010,260 1060,330" stroke-width="1.3" opacity=".7" stroke-dasharray="6 2"/><path vector-effect="non-scaling-stroke" d="M0,420 C90,520 150,640 180,760" stroke-width="1.3" opacity=".7" stroke-dasharray="6 2"/></g></defs><g id="L"><line vector-effect="non-scaling-stroke" x1="2" x2="2" y1="0" y2="1813" stroke="#2a6bff" stroke-width="1" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="10" x2="10" y1="0" y2="1333" stroke="#ff3b30" stroke-width="1.5" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="16" x2="16" y1="0" y2="1643" stroke="#ffe14a" stroke-width="1.2" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="23" x2="23" y1="0" y2="1126" stroke="#35e04a" stroke-width="1.5" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="27" x2="27" y1="0" y2="987" stroke="#8a3cff" stroke-width="1.5" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="34" x2="34" y1="0" y2="1424" stroke="#35e04a" stroke-width="2" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="41" x2="41" y1="0" y2="1689" stroke="#2a6bff" stroke-width="1" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="51" x2="51" y1="0" y2="1503" stroke="#ff3b30" stroke-width="2" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="56" x2="56" y1="0" y2="1894" stroke="#8a3cff" stroke-width="1.2" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="64" x2="64" y1="0" y2="1891" stroke="#35e04a" stroke-width="1.2" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="73" x2="73" y1="0" y2="1486" stroke="#2a6bff" stroke-width="2.5" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="80" x2="80" y1="0" y2="1635" stroke="#ff3fd0" stroke-width="1.5" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="90" x2="90" y1="120" y2="1591" stroke="#35e04a" stroke-width="1" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="100" x2="100" y1="0" y2="185" stroke="#ffffff" stroke-width="1.2" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="135" x2="135" y1="0" y2="273" stroke="#ffe14a" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="152" x2="152" y1="0" y2="161" stroke="#2a6bff" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="167" x2="167" y1="0" y2="285" stroke="#ffe14a" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="189" x2="189" y1="0" y2="291" stroke="#ff3b30" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="214" x2="214" y1="0" y2="213" stroke="#ffffff" stroke-width="1.2" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="252" x2="252" y1="0" y2="256" stroke="#ffffff" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="274" x2="274" y1="0" y2="178" stroke="#2a6bff" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="313" x2="313" y1="0" y2="170" stroke="#8a3cff" stroke-width="2.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="353" x2="353" y1="0" y2="266" stroke="#ffe14a" stroke-width="1.2" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="384" x2="384" y1="0" y2="176" stroke="#8a3cff" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="401" x2="401" y1="0" y2="238" stroke="#47c6ff" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="416" x2="416" y1="0" y2="154" stroke="#35e04a" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="442" x2="442" y1="0" y2="145" stroke="#47c6ff" stroke-width="2.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="463" x2="463" y1="0" y2="315" stroke="#2a6bff" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="502" x2="502" y1="0" y2="329" stroke="#2a6bff" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="530" x2="530" y1="0" y2="163" stroke="#ff3b30" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="569" x2="569" y1="0" y2="236" stroke="#ff3fd0" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="584" x2="584" y1="0" y2="159" stroke="#ffe14a" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="615" x2="615" y1="0" y2="190" stroke="#ff3fd0" stroke-width="1.2" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="635" x2="635" y1="0" y2="163" stroke="#2a6bff" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="665" x2="665" y1="0" y2="306" stroke="#47c6ff" stroke-width="2" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="696" x2="696" y1="0" y2="282" stroke="#ffe14a" stroke-width="1.2" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="713" x2="713" y1="0" y2="247" stroke="#47c6ff" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="741" x2="741" y1="0" y2="227" stroke="#35e04a" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="781" x2="781" y1="0" y2="182" stroke="#35e04a" stroke-width="2" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="820" x2="820" y1="0" y2="245" stroke="#2a6bff" stroke-width="2" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="860" x2="860" y1="0" y2="303" stroke="#8a3cff" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="891" x2="891" y1="0" y2="215" stroke="#ff3b30" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="914" x2="914" y1="0" y2="282" stroke="#35e04a" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="929" x2="929" y1="0" y2="212" stroke="#2a6bff" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="963" x2="963" y1="0" y2="175" stroke="#ff3b30" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="1000" x2="1000" y1="0" y2="250" stroke="#ffe14a" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="1035" x2="1035" y1="0" y2="160" stroke="#ff3b30" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="1071" x2="1071" y1="0" y2="278" stroke="#2a6bff" stroke-width="1" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="1102" x2="1102" y1="0" y2="260" stroke="#ff3fd0" stroke-width="2" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="1124" x2="1124" y1="0" y2="141" stroke="#ff3b30" stroke-width="1.5" opacity="0.8"/><line vector-effect="non-scaling-stroke" x1="118" x2="118" y1="0" y2="1622" stroke="#ffe14a" stroke-width="1" opacity="0.7"/><line vector-effect="non-scaling-stroke" x1="170" x2="170" y1="0" y2="1720" stroke="#8a3cff" stroke-width="1.5" opacity="0.7"/><line vector-effect="non-scaling-stroke" x1="235" x2="235" y1="0" y2="1660" stroke="#8a3cff" stroke-width="1.2" opacity="0.7"/><line vector-effect="non-scaling-stroke" class="fl" x1="300" x2="300" y1="420" y2="1904" stroke="#8a3cff" stroke-width="1" opacity="0.7"/><line vector-effect="non-scaling-stroke" x1="388" x2="388" y1="200" y2="1343" stroke="#2a6bff" stroke-width="1" opacity="0.7"/><line vector-effect="non-scaling-stroke" x1="466" x2="466" y1="0" y2="1819" stroke="#ff3b30" stroke-width="1" opacity="0.7"/><line vector-effect="non-scaling-stroke" x1="555" x2="555" y1="420" y2="1643" stroke="#ffe14a" stroke-width="1.2" opacity="0.7"/><line vector-effect="non-scaling-stroke" class="fl" x1="592" x2="592" y1="420" y2="1515" stroke="#ffe14a" stroke-width="1.2" opacity="0.7"/><line vector-effect="non-scaling-stroke" x1="640" x2="640" y1="200" y2="1128" stroke="#ff3b30" stroke-width="1" opacity="0.7"/><line vector-effect="non-scaling-stroke" x1="700" x2="700" y1="420" y2="1778" stroke="#ffffff" stroke-width="1.2" opacity="0.7"/><line vector-effect="non-scaling-stroke" x1="745" x2="745" y1="200" y2="982" stroke="#ff3b30" stroke-width="1" opacity="0.7"/><line vector-effect="non-scaling-stroke" x1="800" x2="800" y1="0" y2="1140" stroke="#47c6ff" stroke-width="2" opacity="0.9"/><line vector-effect="non-scaling-stroke" class="fl" x1="811" x2="811" y1="0" y2="847" stroke="#ffe14a" stroke-width="3" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="815" x2="815" y1="0" y2="1130" stroke="#2a6bff" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="826" x2="826" y1="0" y2="687" stroke="#ff3b30" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="835" x2="835" y1="0" y2="1757" stroke="#47c6ff" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="845" x2="845" y1="0" y2="1851" stroke="#35e04a" stroke-width="2" opacity="0.9"/><line vector-effect="non-scaling-stroke" class="fl" x1="850" x2="850" y1="0" y2="1879" stroke="#8a3cff" stroke-width="1.2" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="855" x2="855" y1="0" y2="973" stroke="#2a6bff" stroke-width="1.2" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="861" x2="861" y1="0" y2="1203" stroke="#ff3fd0" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="865" x2="865" y1="0" y2="688" stroke="#35e04a" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="871" x2="871" y1="0" y2="1317" stroke="#2a6bff" stroke-width="1.2" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="878" x2="878" y1="0" y2="1473" stroke="#ff3b30" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="888" x2="888" y1="0" y2="1958" stroke="#ff3b30" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="896" x2="896" y1="0" y2="1534" stroke="#35e04a" stroke-width="1.2" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="904" x2="904" y1="0" y2="680" stroke="#ff3fd0" stroke-width="2.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="911" x2="911" y1="0" y2="1932" stroke="#ffffff" stroke-width="1.2" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="921" x2="921" y1="0" y2="1465" stroke="#2a6bff" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="931" x2="931" y1="0" y2="1567" stroke="#47c6ff" stroke-width="2.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="940" x2="940" y1="0" y2="671" stroke="#35e04a" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="946" x2="946" y1="0" y2="1416" stroke="#ff3b30" stroke-width="3" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="956" x2="956" y1="0" y2="1845" stroke="#47c6ff" stroke-width="3" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="966" x2="966" y1="0" y2="728" stroke="#ff3fd0" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="976" x2="976" y1="0" y2="1121" stroke="#2a6bff" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="985" x2="985" y1="0" y2="1975" stroke="#8a3cff" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="991" x2="991" y1="0" y2="1833" stroke="#2a6bff" stroke-width="3" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="996" x2="996" y1="0" y2="738" stroke="#ff3b30" stroke-width="3" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1004" x2="1004" y1="0" y2="840" stroke="#35e04a" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1011" x2="1011" y1="0" y2="1688" stroke="#35e04a" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1019" x2="1019" y1="0" y2="1150" stroke="#8a3cff" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1027" x2="1027" y1="0" y2="1292" stroke="#8a3cff" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1033" x2="1033" y1="0" y2="729" stroke="#8a3cff" stroke-width="1.2" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1038" x2="1038" y1="0" y2="1235" stroke="#ffe14a" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1043" x2="1043" y1="0" y2="766" stroke="#2a6bff" stroke-width="3" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1047" x2="1047" y1="0" y2="1647" stroke="#ffe14a" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1057" x2="1057" y1="0" y2="1900" stroke="#35e04a" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1064" x2="1064" y1="0" y2="1951" stroke="#8a3cff" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1070" x2="1070" y1="0" y2="960" stroke="#ffe14a" stroke-width="3" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1076" x2="1076" y1="0" y2="1132" stroke="#2a6bff" stroke-width="2.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1086" x2="1086" y1="0" y2="693" stroke="#35e04a" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" class="fl" x1="1090" x2="1090" y1="0" y2="1324" stroke="#35e04a" stroke-width="2.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1101" x2="1101" y1="0" y2="767" stroke="#ff3fd0" stroke-width="2" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1105" x2="1105" y1="0" y2="940" stroke="#ffe14a" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1110" x2="1110" y1="0" y2="892" stroke="#47c6ff" stroke-width="1.2" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1115" x2="1115" y1="0" y2="1856" stroke="#ff3b30" stroke-width="1.5" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="1122" x2="1122" y1="0" y2="731" stroke="#ffe14a" stroke-width="1" opacity="0.9"/><line vector-effect="non-scaling-stroke" x1="790" x2="1125" y1="270" y2="270" stroke="#c9d4ff" stroke-width="1.2" opacity=".5"/><line vector-effect="non-scaling-stroke" x1="790" x2="1125" y1="640" y2="640" stroke="#c9d4ff" stroke-width="1.2" opacity=".5"/><line vector-effect="non-scaling-stroke" x1="790" x2="1125" y1="990" y2="990" stroke="#c9d4ff" stroke-width="1.2" opacity=".5"/><rect x="860" y="280" width="90" height="360" fill="#ff3fd0" opacity="0.22" style="vector-effect:none"/><rect x="955" y="640" width="50" height="980" fill="#ffd9f6" opacity="0.26" style="vector-effect:none"/><rect x="1030" y="300" width="36" height="340" fill="#ff3b30" opacity="0.18" style="vector-effect:none"/><rect x="905" y="660" width="22" height="900" fill="#47c6ff" opacity="0.18" style="vector-effect:none"/></g><use href="#L" filter="url(#glow)" opacity=".55"/><use href="#C" stroke="#ff4d4d" transform="translate(-3,0)" opacity=".6"/><use href="#C" stroke="#4da3ff" transform="translate(3,0)" opacity=".6"/><use href="#C" stroke="#eaf0ff"/><circle cx="905" cy="1620" r="75" fill="url(#hot)"/><line vector-effect="non-scaling-stroke" x1="939" y1="1620" x2="1063" y2="1621" stroke="#fff" stroke-width="1.3" opacity="0.85"/><line vector-effect="non-scaling-stroke" x1="933" y1="1627" x2="977" y2="1637" stroke="#fff" stroke-width="1.3" opacity="0.48"/><line vector-effect="non-scaling-stroke" x1="915" y1="1595" x2="947" y2="1511" stroke="#fff" stroke-width="1.3" opacity="0.63"/><line vector-effect="non-scaling-stroke" x1="894" y1="1627" x2="849" y2="1657" stroke="#fff" stroke-width="1.3" opacity="0.81"/><line vector-effect="non-scaling-stroke" x1="903" y1="1605" x2="891" y2="1501" stroke="#fff" stroke-width="1.3" opacity="0.58"/><line vector-effect="non-scaling-stroke" x1="907" y1="1597" x2="911" y2="1534" stroke="#fff" stroke-width="1.3" opacity="0.89"/><line vector-effect="non-scaling-stroke" x1="881" y1="1608" x2="771" y2="1554" stroke="#fff" stroke-width="1.3" opacity="0.46"/><line vector-effect="non-scaling-stroke" x1="910" y1="1588" x2="921" y2="1508" stroke="#fff" stroke-width="1.3" opacity="0.84"/><line vector-effect="non-scaling-stroke" x1="940" y1="1605" x2="1025" y2="1569" stroke="#fff" stroke-width="1.3" opacity="0.60"/><line vector-effect="non-scaling-stroke" x1="914" y1="1637" x2="948" y2="1698" stroke="#fff" stroke-width="1.3" opacity="0.79"/><line vector-effect="non-scaling-stroke" x1="877" y1="1618" x2="754" y2="1611" stroke="#fff" stroke-width="1.3" opacity="0.57"/><line vector-effect="non-scaling-stroke" x1="922" y1="1653" x2="960" y2="1730" stroke="#fff" stroke-width="1.3" opacity="0.75"/><line vector-effect="non-scaling-stroke" x1="899" y1="1644" x2="874" y2="1755" stroke="#fff" stroke-width="1.3" opacity="0.62"/><line vector-effect="non-scaling-stroke" x1="891" y1="1606" x2="816" y2="1534" stroke="#fff" stroke-width="1.3" opacity="0.68"/><line vector-effect="non-scaling-stroke" x1="898" y1="1635" x2="878" y2="1678" stroke="#fff" stroke-width="1.3" opacity="0.47"/><line vector-effect="non-scaling-stroke" x1="869" y1="1611" x2="781" y2="1590" stroke="#fff" stroke-width="1.3" opacity="0.90"/><line vector-effect="non-scaling-stroke" x1="903" y1="1604" x2="885" y2="1485" stroke="#fff" stroke-width="1.3" opacity="0.59"/><line vector-effect="non-scaling-stroke" x1="938" y1="1641" x2="1007" y2="1684" stroke="#fff" stroke-width="1.3" opacity="0.86"/><line vector-effect="non-scaling-stroke" x1="921" y1="1652" x2="949" y2="1709" stroke="#fff" stroke-width="1.3" opacity="0.58"/><line vector-effect="non-scaling-stroke" x1="880" y1="1637" x2="773" y2="1710" stroke="#fff" stroke-width="1.3" opacity="0.57"/><line vector-effect="non-scaling-stroke" x1="896" y1="1591" x2="872" y2="1516" stroke="#fff" stroke-width="1.3" opacity="0.88"/><line vector-effect="non-scaling-stroke" x1="898" y1="1629" x2="844" y2="1698" stroke="#fff" stroke-width="1.3" opacity="0.59"/><line vector-effect="non-scaling-stroke" x1="914" y1="1600" x2="943" y2="1533" stroke="#fff" stroke-width="1.3" opacity="0.56"/><line vector-effect="non-scaling-stroke" x1="925" y1="1651" x2="986" y2="1743" stroke="#fff" stroke-width="1.3" opacity="0.66"/><line vector-effect="non-scaling-stroke" x1="929" y1="1639" x2="978" y2="1675" stroke="#fff" stroke-width="1.3" opacity="0.52"/><line vector-effect="non-scaling-stroke" x1="902" y1="1645" x2="893" y2="1717" stroke="#fff" stroke-width="1.3" opacity="0.56"/></svg></div><div class="glass-grid" aria-hidden="true"></div>
+<div class="ios-notif" id="notif" aria-hidden="true"><div class="nt-head"><span class="nt-ic"><svg viewBox="0 0 40 40"><defs><linearGradient id="ng" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6be26f"/><stop offset="1" stop-color="#2cb742"/></linearGradient></defs><rect width="40" height="40" rx="9" fill="url(#ng)"/><path d="M20 9c6.6 0 12 4.2 12 9.5S26.6 28 20 28c-1.3 0-2.5-.2-3.7-.5-1.6 1.2-3.6 2-5.8 2 1.2-1.1 2-2.4 2.3-4C10.5 23.9 8 21.4 8 18.5 8 13.2 13.4 9 20 9z" fill="#fff"/></svg></span><span class="nt-app">MESSAGES</span><span class="nt-time">now</span></div><div class="nt-title" id="ntTitle"></div><div class="nt-body" id="ntBody"></div></div>
+<div class="toast" id="toast" hidden></div>
+<div id="adminRoot"></div>
+
+
+<script>
+/* ===========================================================
+   기본 게시글은 위의 posts-data(JSON)에 들어 있습니다.
+   방문자가 쓴 글과 댓글은 이 화면의 메모리에만 있고, 새로고침하거나 나갔다 들어오면 사라집니다.
+   =========================================================== */
+var CATS = ["전체", "일반", "일상", "정보", "질문", "썰", "건의"];
+var WCATS = ["일반", "일상", "정보", "질문", "썰", "건의"];
+var EMO = { "일반": "💬", "일상": "🖋️", "정보": "💡", "질문": "❓", "썰": "📖", "건의": "📢" };
+var POSTS = [{"id":1,"cat":"공지","title":"낙원정신병동 갤러리 이용 안내","name":"매니저","time":"2025.10.01","views":431,"up":31,"body":["낙원정신병동 갤러리에 오신 것을 환영합니다.","다른 환우들을 존중하는 글을 써주세요.","해당 게시판은 상시 모니터링되며 필요 시 환자 호출이 있을 수 있습니다.","1. 게시물 삭제","다른 환우에 대한 조롱, 괴롭힘, 마약류 권유 등의 문제의 소지가 다분한 게시물들은 삭제, 호출 조치합니다. 정치 관련 글은 삭제합니다.","2. 지속적인 자살 암시 게시글 작성","호출, 교육 조치합니다.","3. 사이버 불링","사이버 불링과 관련된 문제 발생시 게시판 폐쇄 조치합니다.","*게시글 신고 관련 문의는 1층 간호사에게 오세요.","+ 최근 낙원교회 후원처 관련하여 상당한 음해, 음모론이 제기되고 있습니다. 해당되는 게시글 작성자는 2026.11.20 안으로 1층 간호사에게 오세요. 기간 내로 오지 않을 시 추가 조치가 들어갑니다."],"comments":[{"name":"ㅇㅇ (49.175)","time":"10.01 21:14","text":"확인했습니다"},{"name":"hank (14.53)","time":"10.02 03:40","text":"안녕하세요"},{"name":"milkoy (46.39)","time":"10.05 2:26","text":"규칙이 좆같이도 많네"},{"name":"ㅇㅇ (184.156)","time":"10.29 2:34","text":"호출 작작하세요"}],"notice":true,"hot":true},{"id":2,"cat":"공지","title":"병동 출입 및 면회 규정 (개정)","name":"매니저","time":"10.15","views":1104,"up":12,"body":["면회는 입원 후 1달이 지난 뒤부터 신청 가능하며 오후 2시부터 5시까지만 가능합니다.","외부 물품 반입 시 사전 확인이 필요합니다."],"comments":[{"name":"시궁창 (14.21)","time":"10.15 18:02","text":"개정 전이랑 뭐가 달라졌나요"},{"name":"ㄴ milkoy (46.39)","time":"10.15 21:20","text":"폰트가 바뀌었잖냐"}],"notice":true},{"id":3,"cat":"공지","title":"야간 소등 후 게시글 작성 관련 안내","name":"매니저","time":"11.01","views":104,"up":8,"body":["소등 이후 작성된 글은 간호 기록에 함께 남을 수 있습니다.","참고하시기 바랍니다."],"comments":[{"name":"ㅇㅇ (19.92)","time":"11.04 23:14","text":"네(투폰을하며)"}],"notice":true},{"id":20,"cat":"공지","title":"탈출 관련 징계 안내","name":"매니저","time":"11.14","views":60,"up":13,"body":["최근 병원 내에서 공구를 사용하여 탈출하는 행위가 벌어졌습니다. 이에 병원 보안을 강화하고자 합니다.","병원 탈출은 엄중한 처벌이 이루어질 수 있습니다. 해당 게시판 내에서 탈출을 돕거나 암시하는 게시물 발견 시 주변 간호사에게 문의 부탁드립니다."],"comments":[{"name":"yeang","time":"11.14 20:24","text":"저격글은 삭제대상 아닌가요ㄷㄷ"},{"name":"계묭","time":"11.14 20:30","text":"우융상태:씨발"}],"notice":true},{"id":26,"cat":"질문","title":"임시 저장된 비밀글","name":"JJoman","time":"11.19","views":0,"up":0,"secret":{"s":"2nOhs0yxNzPouFsQbiZYVg==","i":"vQ75hWWb9CcTM0Lv","c":"cHkiDLRWOmOpYfYWhD/2oGUGzHSo3mNqRqAcuVM8l48eMYoCw1vzoJo="},"cm":0},{"id":27,"cat":"정보","title":"요즘 약 이상함","name":"파샥","time":"11.17","views":121,"up":30,"body":["약 바꼈는데 전에 나은 환각 또 보임","침대 아래로 바퀴벌레가 떼거지로 지나다니길래 소리질렀는데 안정실감","수면제도 원래 필요 없었는데 갑자기 처방받음","나 거의 퇴원 직전으로 나아졌었는데"],"comments":[{"name":"누팔이","time":"11.17 14:10","text":"싸패가 드디어 노망났나"},{"name":"komq","time":"11.17 14:42","text":"나만 약 바뀐게 아니네"},{"name":"개발","time":"11.17 14:51","text":"아니어쩐지씨발"},{"name":"ㅇㅇ","time":"11.17 17:00","text":"뭐임"},{"name":"파샥","time":"11.18 21:00","text":"아니 약먹고안정실에서지금깸 간호사왜나안깨워줌 뭐야씨발"}],"hot":true},{"id":23,"cat":"질문","title":"205호 언제 4명됨","name":"래먄","time":"11.17","views":36,"up":2,"body":["얼마 전까지만 해도 세 명 아니었나","저 방 네 명 된 거 처음봄"],"comments":[{"name":"대하","time":"11.17 10:24","text":"쪼만 들어옴"},{"name":"ㄴ래먄","time":"11.17 10:26","text":"엥? 왜?"},{"name":"ㄴmilkoy","time":"11.17 15:59","text":"개꿀잼 사지결박컴백무대를 못봤다고? 유감"}]},{"id":22,"cat":"일상","title":"낙원교회 종교활동다녀옴","name":"Rlfehd","time":"11.15","views":97,"up":15,"body":["아마 이번이 종교활동 외출 마지막인거같은데","낙원교회 언급되는지는 몰라도 걍 써봄","근데 이새끼들 그냥 재단 치우라고 노동력 징발한듯 어쩐지 요즘 안정실 존나다녀왔는데 외출보내준다했다","교회.. 텅텅 빔 폐가체험하는줄 백룸이야 시발","근데 여전히 건물은 지리더라 나 어릴때 교회 자주 다녔는데 차원이 다름 사람 없는게 문제긴 해","마약은 없더라ㅋㅋ 까비 그래도 오랜만에 천사동상 만지고 옴 물론 몰래"],"comments":[{"name":"hank","time":"11.15 20:24","text":"어그로에 미쳐서 생각없이 글 싸지르지 말라고"},{"name":"milkoy","time":"11.15 20:24","text":"b동 401호 원학아 아가리 간수좀"},{"name":"yeang","time":"11.15 20:30","text":"남이사 씨발아"},{"name":"싸개","time":"11.15 22:10","text":"싸불ㅋㅋ 게시판도 얼마 못가겠다 글쓴 파이팅"}]},{"id":21,"cat":"일반","title":"실시간 플래그","name":"냐냥이","time":"11.15","views":43,"up":10,"body":["병원 와서 산책하는 의사 가발 벗기고 튐","의사 개빡침"],"comments":[{"name":"녕","time":"11.15 07:08","text":"ㅋㅋㅋㅋㅋㅋㅋㅋㅋ"},{"name":"five","time":"11.15 7:39","text":"미친놈"},{"name":"채","time":"11.17 15:38","text":"플래그 이새끼 오늘 의사한테 불려감 한동안 안정실 못나올듯ㅅㅂㅋㅋㅋㅋ"}]},{"id":12,"cat":"일반","title":"공구 위치 삼","name":"milkoy","time":"11.13","views":53,"up":0,"body":["공구 있었는데 위치가 어디더라","초콜릿바 두 개로 위치 삼"],"comments":[{"name":"옥자","time":"11.13 15:40","text":"백퍼 탈출하려는건데 먹는거에 눈팔려서 파는 호구 없지?.."},{"name":"ㄴㅇㅇ","time":"11.13 15:57","text":"아니빨리말해줬어야지"},{"name":"milkoy","time":"11.13 16:00","text":"거래완료^^"}]},{"id":24,"cat":"일상","title":"20261111","name":"yeang","time":"11.11","views":102,"up":8,"body":["1. 오늘 맘마 ㅅㅌㅊ","2. 투약 늘림","3. 우융새끼랑 난로에서 손 늦게 떼기 내기하다가 물집잡힘","+내가이김ㅋㅋ 병~신","4. 방왔는데 쪼만이새끼랑 시미베랑 둘이 찐하게 안고있었음","사귀냐? 내 방에서 나가 씨발","5. 행크가 빼빼로 줌ㅎ"],"comments":[{"name":"milkoy","time":"11.11 23:23","text":"일기장은 니 메모에 쓰라고"},{"name":"milkoy","time":"11.11 23:24","text":"잠시만 시미베 쪼만 뭐?"},{"name":"milkoy","time":"11.11 23:24","text":"내 방에서 나가 씨발"},{"name":"땡이","time":"11.12 01:25","text":"난로는 진짜 지능이 안느껴지네"}],"hot":true},{"id":13,"cat":"일반","title":"침대밑에 타란튤라","name":"길기 (134.34)","time":"11.10","views":25,"up":0,"body":["가끔 나오던데 이번에는 타란튤라랑 곱등이랑 대왕지네 좀 많네 한번에 다루느라 조금 버거웠는데 창문 밖에서부터 자꾸 말벌들이 툭툭 쳐 머리맡에는 개미가 자꾸 기어다녀서 잠이 안와 가끔씩은 얼굴 타고 지나갈"],"comments":[{"name":"ㅇㅇ(194.155)","time":"11.10 3:14","text":"약먹어"},{"name":"ㄴ길기(134.34)","time":"11.10 3:15","text":"때는눈꼭감고기다이면돼창문밖에서사람도조금씩기어다녀쿵쿵거릴때도있는데내가이불뒤집어쓰면서기도하면그냥사라져서괜찮아안사라지면침대밑에타란튤라가잡아먹어자꾸소리가생생해서괴로워"},{"name":"yeang (14.34)","time":"11.10 10:27","text":"타란튤라 ㅈㄴ세네 정보좀"}]},{"id":14,"cat":"일반","title":"시발205호개새끼들아","name":"ㅇㅇ(14.53)","time":"11.08","views":52,"up":10,"body":["시발새끼들아 진짜존나패고싶네 작작쳐싸워씨발 쪼만? 그새끼 다시쳐들어오고나서부터 허구헌날 복도에서 ㅈㄴ시끄럽게 지랄이야 씨발 처신잘해"],"comments":[{"name":"병동환자(116.32)","time":"11.08 23:40","text":"개추ㅋㅋ"},{"name":"ㅇㅇ(14.133)","time":"11.09 00:12","text":"이제 문제아 사인방ㄷㄷ"},{"name":"milkoy(46.39)","time":"11.09 2:10","text":"꼬우면 대면하든가 ㅂㅅ아"},{"name":"병동환자(93.14)","time":"11.09 15:24","text":"근데 쪼만 걔는 왜 또 온거임"},{"name":"ㄴㅇㅇ(14.53)","time":"11.09 16:21","text":"글 잘 찾아보셈"}]},{"id":16,"cat":"건의","title":"낙원정신병원은 들어라","name":"폐수","time":"11.07","views":142,"up":35,"body":["205호 제발 ㅁㅊㅅㄲ들 징계좀먹이라고 병원은뭐하냐? 정신병자가 아니라 병신정자가있는데 쫓아내 좀","존~~~~나 시끄러워 이새끼들이랑 있으면 정신병더심해져"],"comments":[{"name":"ㅇㅇ","time":"11.07 15:20","text":"개추"},{"name":"디귿","time":"11.07 16:00","text":"개추"},{"name":"도른자","time":"11.10 01:11","text":"눈물추"}],"hot":true},{"id":17,"cat":"썰","title":"낙원교회 카더라","name":"지아","time":"10.06","views":388,"up":21,"body":["내 친척이 다님","결론부터 말하면 ㅅㅇㅂ임","돈도 떼가기는 하는데 (이거로 병원 후원금 운영)","마약 밀매 관련으로 좀 얽혀있는듯","이번에 식당에서 밥먹다가 공용 티비에서 뜬 ㅅㅇㅂ 교주가 ㄴㅇㄱㅎ 교주임","+이건 진짜 카더라인데 혹시모르니까 믿지 마셈","거기 교주가 키우던 양아들? 사생아? 교주 잡혀가고 나서 여기 들어온대"],"comments":[{"name":"병동환자(49.175)","time":"10.06 04:50","text":"글내려"},{"name":"ㅇㅇ(115.21)","time":"10.06 05:11","text":"ㅅㅇㅂ가 뭐임 사이비?"},{"name":"ㄴ띠기(19.351)","time":"10.06 09:02","text":"언급하지마셈 관리자 뭐하냐"},{"name":"komq (14.25)","time":"10.15 04:13","text":"내리는 게 좋을듯 병원에서 글쓴 찾고있음"}]},{"id":25,"cat":"일반","title":"집가고싶어","name":"혜인","time":"09.21","views":186,"up":3,"body":["시발난여기있어야할사람이아니라고 내가여기에왜있는건데 왜안보내줘 바쁜사람데리고뭘하냐고"],"comments":[{"name":"혜인","time":"09.21 04:14","text":"너네다한패지씨발세끼들아 세상에낙원이랑천사님같은건없어정신병자새끼들아 빨리내보내달라고"},{"name":"뵤","time":"09.21 08:13","text":"병먹금"},{"name":"ㄴ혜인","time":"09.22 21:01","text":"나너네절대안잊어씨발"},{"name":"milkoy","time":"09.21 14:52","text":"약좀 제때 쳐먹어"},{"name":"마이꾸미","time":"09.21 21:15","text":"내가온곳이진짜정신병동이맞구나"}]},{"id":18,"cat":"질문","title":"관리자 조치로 삭제된 글입니다.","name":"차단된 사용자","time":"2025.10.14","views":352,"up":80,"body":["삭제된 게시글입니다."],"comments":[{"name":"사공","time":"10.10 23:10","text":"문제아 삼인방은 영원하다 누구 하나 나갔다고 끝날줄알았지?"},{"name":"ㅇㅇ","time":"10.11 00:04","text":"이름 시미베 나이 26 근데 병명은 아는사람 없을듯"},{"name":"ㄴ차단된 사용자","time":"10.11 00:05","text":"ㄱㅅ"},{"name":"땡식","time":"10.11 04:13","text":"나간거 존나부럽네 뇌물먹였나"},{"name":"차단된 사용자2","time":"10.11 14:24","text":"삭제된 댓글입니다."},{"name":"ㄴ차단된 사용자","time":"10.11 15:05","text":"근데 그거 다 카더라잖아"},{"name":"ㄴ차단된 사용자2","time":"10.11 15:14","text":"삭제된 댓글입니다."}]},{"id":19,"cat":"정보","title":"알아두면 좋은 거","name":"디귿","time":"2025. 10.02","views":512,"up":94,"body":["쳐넣어진지 얼마 안된사람들 걍 알아두셈","1. 안정실","누구든 입원하고 한번쯤은 쳐넣어져봤다는 전설의 생각하는방ver2","어짜피 몰라도 언젠간 경험하게될곳이니 가볍게 스루","참고로 간호사들 기분 ㅈ같을때 나대면 직행이니 사람 표정 보는 연습을 해둘 것","2.의사","이새끼는 싸이코가 맞음ㅇㅇ 정기면담할때마다 나랑 자리바꿔야할정도 구라안치고 내가 더 잘볼듯 시발","여기 사이에서 진짜 감정없는새끼라는말나옴 이새끼 아래에서 퇴원진단나온사람이 0명이라는소문이있다","3.낙원교회","낙원정신병원 제일 큰 후원처","정확하게는 여기에서 단물 쪽쪽빨아먹는중 가끔씩 종교활동가는데 외출도 하고 이만큼 기모딱이없음","근데 씨발 문제아삼인방이 외출때 쳐 탈출한 이후로는 좀 줄은듯 개새끼들아 진짜 아 좆같네","우리 슬로건도 얘네가 줬다고한다 근데 요즘 ㅅㅇㅂ 설이 도는듯 뉴스같은거 안봐서 모르긴한데 듣기로는 밥먹을때 공용티비에서 교주 잡혀갔다는 뉴스떴대","4. 문제아삼인방","원래 환자 내용은 안적으려했는데 이새끼들때문에 외출 줄은거 생각하니까 ㅈ같아서 구술","205호 방 이름임 우융옝쪼만 있는곳","이새끼들+플래그 조합으로 진짜 개지랄이란 지랄은 골라서함 볼때마다 안정실쳐박혀있음 ㅅㅂ","우융? 이새끼는 방화가 취미임 작년 겨울이었나 이새끼 방 난방 안된다고 1층 로비 소파에 불질러서 병원 의자 싹 바뀜 엉덩이 존나아프더라 덕분이다","사람도 존나 패고다녀 내생각에 얘는 교도소 사형수의 행운아 버전임 용케도 교도소 안 가고 정신병원에갇혀있잖아 코마 없었으면 이새끼는 진짜 사회면에 크게 떴을거라고","옝은 그냥 목소리도 존나 크고 성격더러운정도 우융에 비하면 ㄱㅊ은애인데 우융이랑 같이 다니니까 둘이서 시발 지랄이란 지랄은 다 해요 특히 약먹었을때 가끔 안정실 탈출해서 난동 개 피움","행크 들어오고 나서부터는 조금 나아졌는데 소등 시간 지나고나면 또 개융이랑 탈출하려고 지랄 하... 이새끼 전에 탈출하고 그대로 구급차훔쳐서 홍대갔다가 재갈물고 쳐끌려왔던적있음","쪼만 얘는 그나마 조용한애인데 가끔씩 환각보면 진짜 구라ㄴㄴ로 위에 두 새끼들보다 감당안됨 얘네 둘+다른애들 모여서 말림 적어도 위에 두명은 꼴리는대로 살아서 그런가 자살 자해는 안하려하는데 얘가 뭔 트라우마? 같은거 보면 눈에 뵈는거 없이 행동함 좀 무서움 그리고 ㅅㅈㅎ 좀 불쌍 그래도 평소에는 가장 정상임 요즘 나아져서 퇴원한다는 얘기도 들림 부럽다 나도 여기 나가고싶은데","다른 얘기 뭐 더 할거 있나? 궁금한거 댓글 ㄱ 5년차 언니가 알려줄게"],"comments":[{"name":"milkoy","time":"10.03 19:28","text":"글쓴이새끼 누구냐? 잡히면 뒤진다"},{"name":"지아","time":"10.04 20:52","text":"사형수의 행운아 버전\u003c\u003c이부분 진짜감동"},{"name":"ㅇㅇ","time":"10.05 09:14","text":"교회부분 지우셈"},{"name":"폐수","time":"10.05 15:38","text":"ㅉㅁ 퇴원한다고?"},{"name":"ㄴ디귿","time":"10.05 15:38","text":"확정됨 내일 한대"},{"name":"yeang","time":"10.05 23:06","text":"시발 나 이거 지금봤네 구급차 지워라"},{"name":"띠기","time":"10.13 13:23","text":"슬로건 왜 내려감"},{"name":"ㄴ디귿","time":"10.13 14:00","text":"ㄴㅇㄱㅎ 관련 언급하면 안될듯.. 개인적으로 오셈 305호"}],"hot":true}];
+var state = { tab: "all", cat: "전체", q: "" };
+var wv = { cat: "일반", fs: 16, ta: "left" };
+var admin = { can: false, on: false, art: null };
+var editCm = null;
+var $ = function (s) { return document.querySelector(s); };
+
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+function curPost() { var m = /^#post-(\d+)$/.exec(location.hash); return m ? byId(parseInt(m[1], 10)) : null; }
+function byId(id) { return POSTS.filter(function (x) { return x.id === id; })[0]; }
+function cmCount(p) { return p.comments ? p.comments.length : (p.cm || 0); }
+function pad2(n) { return ("0" + n).slice(-2); }
+function nowTime() { var d = new Date(); return pad2(d.getHours()) + ":" + pad2(d.getMinutes()); }
+function stamp() { var d = new Date(); return pad2(d.getMonth() + 1) + "." + pad2(d.getDate()) + " " + pad2(d.getHours()) + ":" + pad2(d.getMinutes()); }
+function fullDate(p) {
+  if (p.date) return p.date;
+  var d = new Date(), y = d.getFullYear();
+  if (/^\d{2}:\d{2}$/.test(p.time)) return y + "." + pad2(d.getMonth() + 1) + "." + pad2(d.getDate()) + " " + p.time;
+  var m = /^(\d{2})\.(\d{2})$/.exec(p.time);
+  return m ? y + "." + m[1] + "." + m[2] : p.time;
+}
+function tagFor(p) {
+  if (p.notice) return '<span class="tag notice">공지</span>';
+  if (p.cat === "설문") return '<span class="tag poll">설문</span>';
+  return "";
+}
+function catLabel(c) { return esc(c) + (EMO[c] ? '<span class="em">' + EMO[c] + "</span>" : ""); }
+var iconSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5h16a1 1 0 011 1v9a1 1 0 01-1 1h-9l-5 4v-4H4a1 1 0 01-1-1V6a1 1 0 011-1z"/></svg>';
+var imgSvg = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5l8 14H4z"/></svg>';
+var SV = {
+  scrap: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6a2 2 0 012-2h4.5l2 2H19a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M12 10v6M9 13h6" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/></svg>',
+  star: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6.2 6.8.8-5 4.7 1.3 6.7L12 17.5 6 20.9l1.3-6.7-5-4.7 6.8-.8z"/></svg>',
+  down: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9.5"/><path d="M8 9.5l4 5 4-5"/></svg>',
+  share: '<svg viewBox="0 0 24 24" fill="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.5 10.5l7-4M8.5 13.5l7 4" stroke="currentColor" stroke-width="2" fill="none"/></svg>',
+  report: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 17a5 5 0 0110 0v2H7z"/><rect x="4" y="19" width="16" height="2.5" rx="1"/><path d="M12 2v3M4.5 6l2 2M19.5 6l-2 2M2 13h3M19 13h3" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>',
+  refresh: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12a8 8 0 11-2.6-5.9"/><path d="M20 4v5h-5"/></svg>',
+  chev: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>',
+  image: '<svg viewBox="0 0 40 40"><rect x="3" y="7" width="30" height="26" rx="4" fill="#8e97a3"/><circle cx="13" cy="16" r="3" fill="#fff"/><path d="M5 30l9-9 6 6 5-5 8 8z" fill="#fff"/><circle cx="32" cy="9" r="7" fill="#d32f2f"/><path d="M32 5.5v7M28.5 9h7" stroke="#fff" stroke-width="2"/></svg>',
+  video: '<svg viewBox="0 0 40 40"><rect x="3" y="9" width="34" height="24" rx="5" fill="#8e97a3"/><rect x="9" y="15" width="16" height="12" rx="2" fill="#fff"/><path d="M26 18l7-4v12l-7-4z" fill="#fff"/></svg>',
+  smile: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 24c0-9 6-15 14-15s14 6 14 15c0 6-5 9-14 9S6 30 6 24z"/><circle cx="15" cy="23" r=".8" fill="currentColor"/><circle cx="25" cy="23" r=".8" fill="currentColor"/><path d="M18 27c1.5 1.5 3.5 1.5 5 0"/><path d="M15 12c1-3 3-4 5-4s4 1 5 4"/></svg>',
+  yt: '<svg viewBox="0 0 40 40"><rect x="2" y="8" width="36" height="24" rx="6" fill="#d32f2f"/><path d="M16 14l11 6-11 6z" fill="#fff"/></svg>',
+  grid: '<svg viewBox="0 0 40 40" fill="#8e97a3"><rect x="4" y="5" width="13" height="13" rx="2"/><rect x="21" y="5" width="13" height="13" rx="2"/><rect x="4" y="22" width="13" height="13" rx="2"/><path d="M27.5 22v13M21 28.5h13" stroke="#8e97a3" stroke-width="3"/></svg>',
+  bars: '<svg viewBox="0 0 40 40" fill="#8e97a3"><rect x="5" y="22" width="8" height="14" rx="1"/><rect x="16" y="6" width="8" height="30" rx="1"/><rect x="27" y="15" width="8" height="21" rx="1"/></svg>',
+  gear: '<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="11" fill="#8e97a3"/><circle cx="20" cy="20" r="5" fill="var(--surface)"/><g stroke="#8e97a3" stroke-width="6" stroke-linecap="round"><path d="M20 4v4M20 32v4M4 20h4M32 20h4M8.7 8.7l2.8 2.8M28.5 28.5l2.8 2.8M8.7 31.3l2.8-2.8M28.5 11.5l2.8-2.8"/></g></svg>'
+};
+
+function matches(p) {
+  if (state.tab === "hot" && !p.hot) return false;
+  if (state.tab === "notice" && !p.notice) return false;
+  if (state.cat !== "전체" && p.cat !== state.cat) return false;
+  if (state.q && (p.title + p.name).toLowerCase().indexOf(state.q.toLowerCase()) < 0) return false;
+  return true;
+}
+function rowHtml(p) {
+  var isPin = p.notice || p.cat === "설문";
+  var pin = isPin ? " pin" + (p.hot || p.cat === "설문" ? " hot" : "") : "";
+  var icon = isPin ? "" : '<span class="ic' + (p.img ? " img" : "") + '">' + (p.img ? imgSvg : iconSvg) + "</span>";
+  var meta = isPin ? "" :
+    '<div class="meta"><span>' + catLabel(p.cat) + "</span><i>|</i><span>" + esc(p.name) + "</span><i>|</i><span>" + esc(p.time) + "</span><i>|</i><span>조회 <span class=\"vc\" data-id=\"" + p.id + "\">" + viewsOf(p) + "</span></span><i>|</i><span>추천 " + p.up + "</span></div>";
+  var cm = '<span class="cm">' + (isPin && p.cat === "설문" ? "" : cmCount(p)) + "</span>";
+  var a = '<a class="row' + pin + (isRead(p.id) ? " read" : "") + '" href="#post-' + p.id + '"><div class="body"><div class="ttl">' + tagFor(p) + icon + lockIc(p) + '<span class="t">' + esc(p.title) + "</span></div>" + meta + "</div>" + cm + "</a>";
+  if (admin.on && !p.local) a += '<div class="adm-act"><button data-mv="up" data-id="' + p.id + '">▲ 위</button><button data-mv="down" data-id="' + p.id + '">▼ 아래</button><button data-edit="' + p.id + '">수정</button><button class="warn" data-del="' + p.id + '">삭제</button></div>';
+  return a;
+}
+function renderList() {
+  var notices = POSTS.filter(function (p) { return p.notice && matches(p); });
+  var polls = POSTS.filter(function (p) { return !p.notice && p.cat === "설문" && matches(p); });
+  var normal = POSTS.filter(function (p) { return !p.notice && p.cat !== "설문" && matches(p); });
+  var html = notices.concat(polls, normal).map(rowHtml).join("");
+  $("#rows").innerHTML = html || '<div class="empty">조건에 맞는 글이 없습니다.</div>';
+  $("#pager").innerHTML = '<button class="on">1</button><button data-toast="마지막 페이지입니다">다음</button>';
+  document.querySelectorAll(".tabs .t").forEach(function (b) { b.classList.toggle("on", b.dataset.tab === state.tab); });
+  $("#cats").innerHTML = CATS.map(function (c) { return '<button class="' + (c === state.cat ? "on" : "") + '" data-cat="' + c + '">' + (c === "전체" ? "전체" : catLabel(c)) + "</button>"; }).join("");
+}
+
+function renderPost(id) {
+  var p = byId(id);
+  if (!p) { location.hash = ""; return; }
+  if (p.secret && !p.open) { renderGate(p); return; }
+  var title = (p.notice ? tagFor(p) : '<span class="cat">[' + esc(p.cat) + (EMO[p.cat] || "") + "]</span> ") + esc(p.title);
+  var admStrip = admin.on && !p.local ? '<div class="pv-adm bleed"><button data-edit="' + p.id + '">글 수정</button><button class="warn" data-del="' + p.id + '">글 삭제</button></div>' : "";
+  var cms = (p.comments || []).map(function (c, i) {
+    var editing = admin.on && !c.local && editCm && editCm.pid === p.id && editCm.i === i;
+    var text = editing
+      ? '<textarea id="cm-edit-ta" class="pc-ta" style="border:1px solid var(--line);margin-top:4px">' + esc(c.text) + '</textarea><div class="pc-adm"><button data-cm-save="' + i + '">저장</button><button data-cm-cancel="1">취소</button></div>'
+      : "<p>" + esc(c.text) + "</p>";
+    var act = admin.on && !c.local && !editing ? '<div class="pc-adm"><button data-cm-edit="' + i + '">수정</button><button class="warn" data-cm-del="' + i + '">삭제</button></div>' : "";
+    return '<div class="pc"><div class="nm">' + esc(c.name) + "</div>" + text + '<div class="tm">' + esc(c.time) + "</div>" + act + "</div>";
+  }).join("");
+  var bodyHtml = p.bodyHtml
+    ? '<div class="pv-body" style="font-size:' + (p.fs || 16) + "px;text-align:" + (p.ta || "left") + '">' + p.bodyHtml + "</div>"
+    : '<div class="pv-body">' + (p.body || []).map(function (t) { return "<p>" + esc(t) + "</p>"; }).join("") + "</div>";
+  $("#postBody").innerHTML =
+    admStrip +
+    '<div class="pv-head"><h2 class="pv-title">' + title + "</h2>" +
+    '<div class="pv-sub"><span class="nm">' + esc(p.name) + '</span><span class="dt">' + esc(fullDate(p)) + '</span><span class="sp"></span><button class="scrap" data-act="scrap" aria-label="스크랩">' + SV.scrap + '</button><button class="pv-pill" id="pvGal">갤로그가기</button></div></div>' +
+    '<div class="pv-stats"><span>조회수 <span class="vc" data-id="' + p.id + '">' + viewsOf(p) + '</span></span><span class="sep">|</span><span>추천 ' + p.up + '</span><span class="sep">|</span><span class="cpill">댓글<b>' + cmCount(p) + "</b></span></div>" +
+    bodyHtml +
+    '<div class="concept"><span class="cnt">' + p.up + '</span><button class="btn" data-act="concept" aria-label="개념글 추천">' + SV.star + "개념</button></div>" +
+    '<div class="pv-act"><button data-act="down">' + SV.down + '비추</button><button data-act="share">' + SV.share + '공유</button><button data-act="scrap">' + SV.scrap + '스크랩</button><button data-act="report"><span class="rd" style="display:flex;align-items:center;gap:5px">' + SV.report + "신고</span></button></div>" +
+    '<div class="pv-btns"><button id="pvList">목록보기</button><button class="primary" id="pvWrite">글쓰기</button></div>' +
+    '<div class="pv-ch bleed">댓글 <span class="n">[' + cmCount(p) + "]</span>" + SV.refresh + '<span class="sp"></span><span class="sort">본문<i>|</i><span style="display:flex;align-items:center;gap:2px">등록순' + SV.chev + "</span></span></div>" +
+    (cms || '<div class="pc-empty">첫 댓글을 남겨보세요.</div>') +
+    '<form class="pc-form" id="cmtForm"><div class="pc-top"><div><input id="cmtName" class="nm" type="text" value="병동환자" aria-label="닉네임"><button type="button" class="clr" id="cmtClr" aria-label="지우기">×</button></div><div><input id="cmtPw" type="password" placeholder="비밀번호" aria-label="비밀번호"></div></div>' +
+    '<textarea id="cmtIn" class="pc-ta" placeholder="댓글을 입력해주세요." aria-label="댓글"></textarea>' +
+    '<div class="pc-tools"><button type="button" class="tl" data-toast="준비 중입니다" aria-label="이모티콘">☺</button><button type="button" class="tl" data-toast="준비 중입니다" aria-label="서식">T</button><span class="sp"></span><button type="submit" class="go">등록</button></div></form>';
+  var rest = POSTS.filter(function (x) { return x.id !== id && !x.notice; }).slice(0, 10);
+  var sv = admin.on; admin.on = false; $("#rows2").innerHTML = rest.map(rowHtml).join(""); admin.on = sv;
+  $("#cmtClr").addEventListener("click", function () { $("#cmtName").value = ""; $("#cmtName").focus(); });
+  $("#cmtForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var text = $("#cmtIn").value.trim();
+    if (!text) { toast("내용을 입력해주세요"); return; }
+    p.comments = p.comments || [];
+    p.comments.push({ name: $("#cmtName").value.trim() || "병동환자", time: stamp(), text: text, local: true });
+    renderPost(id);
+    toast("댓글을 등록했습니다");
+  });
+  $("#pvList").addEventListener("click", function () { location.hash = ""; });
+  $("#pvWrite").addEventListener("click", function () { location.hash = "write"; });
+  $("#pvGal").addEventListener("click", function () { toast("갤로그가 없습니다"); });
+}
+
+/* ---------------- 글쓰기 ---------------- */
+function clean(node) {
+  var out = "";
+  node.childNodes.forEach(function (n) {
+    if (n.nodeType === 3) { out += esc(n.textContent); return; }
+    if (n.nodeType !== 1) return;
+    var t = n.tagName.toLowerCase(), inner = clean(n);
+    if (t === "br") out += "<br>";
+    else if (t === "div" || t === "p") out += (out && !/<br>$/.test(out) ? "<br>" : "") + inner;
+    else if (t === "b" || t === "strong") out += "<b>" + inner + "</b>";
+    else if (t === "i" || t === "em") out += "<i>" + inner + "</i>";
+    else if (t === "u") out += "<u>" + inner + "</u>";
+    else if (t === "s" || t === "strike" || t === "del") out += "<s>" + inner + "</s>";
+    else if (t === "span" && n.style && n.style.backgroundColor) out += "<mark>" + inner + "</mark>";
+    else out += inner;
+  });
+  return out;
+}
+function renderWrite() {
+  wv = { cat: "일반", fs: 16, ta: "left" };
+  var sizes = [12, 14, 16, 18, 20, 24];
+  $("#writeBody").innerHTML =
+    '<div class="wv-head"><h2>글쓰기</h2><button type="button" id="wTemp">임시</button><button type="button" class="reg" id="wReg">등록</button></div>' +
+    '<div class="wv-id"><div><input id="wName" class="nm" type="text" value="병동환자" maxlength="20" aria-label="닉네임"><button type="button" class="clr" id="wClr" aria-label="지우기">×</button></div><div><input id="wPw" type="password" placeholder="비밀번호" aria-label="비밀번호"></div></div>' +
+    '<div class="wv-cats" id="wCats">' + WCATS.map(function (c) { return '<button type="button" data-wc="' + c + '" class="' + (c === wv.cat ? "on" : "") + '">' + catLabel(c) + "</button>"; }).join("") + "</div>" +
+    '<div class="wv-title"><input id="wTitle" type="text" placeholder="제목" maxlength="100" aria-label="제목"></div>' +
+    '<div class="wv-tools"><select id="wSize" aria-label="글자 크기">' + sizes.map(function (s) { return "<option" + (s === wv.fs ? " selected" : "") + ">" + s + "</option>"; }).join("") + "</select>" +
+    '<div class="grp"><button type="button" data-cmd="bold" style="font-weight:700" aria-label="굵게">가</button><button type="button" data-cmd="underline" style="text-decoration:underline" aria-label="밑줄">가</button><button type="button" data-cmd="italic" style="font-style:italic" aria-label="기울임">가</button><button type="button" data-cmd="strikeThrough" style="text-decoration:line-through" aria-label="취소선">가</button></div>' +
+    '<div class="grp"><button type="button" data-cmd="hilite" aria-label="형광펜"><span class="hl">가</span></button></div>' +
+    '<div class="grp"><button type="button" id="wAlign" aria-label="정렬"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 7h16M4 12h10M4 17h16"/></svg></button></div>' +
+    '<div class="grp"><button type="button" data-toast="준비 중입니다" aria-label="링크"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 14a4 4 0 005.7 0l3-3a4 4 0 00-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 00-5.7 0l-3 3a4 4 0 005.7 5.7l1-1"/></svg></button></div></div>' +
+    '<div id="wEditor" class="wv-editor" contenteditable="true" data-ph="내용" role="textbox" aria-label="내용" style="font-size:16px"></div>' +
+    '<div class="wv-icons bleed"><button type="button" data-toast="사진 첨부는 준비 중입니다" aria-label="사진">' + SV.image + '</button><button type="button" data-toast="동영상 첨부는 준비 중입니다" aria-label="동영상">' + SV.video + '</button><button type="button" data-toast="준비 중입니다" aria-label="이모티콘" style="color:var(--ink)">' + SV.smile + '</button><button type="button" data-toast="준비 중입니다" aria-label="유튜브">' + SV.yt + '</button><button type="button" data-toast="준비 중입니다" aria-label="추가">' + SV.grid + '</button><button type="button" data-toast="준비 중입니다" aria-label="투표">' + SV.bars + '</button><button type="button" data-toast="준비 중입니다" aria-label="설정">' + SV.gear + "</button></div>" +
+    '<ul class="wv-notes bleed"><li>쉬운 비밀번호를 입력하면 타인의 수정, 삭제가 쉽습니다.</li><li>이미지 파일은 개당 20MB까지 업로드 가능합니다.</li><li>서로를 존중하는 글을 작성해주세요.</li></ul>';
+  var ed = $("#wEditor");
+  $("#wClr").addEventListener("click", function () { $("#wName").value = ""; $("#wName").focus(); });
+  $("#wCats").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-wc]"); if (!b) return;
+    wv.cat = b.dataset.wc;
+    document.querySelectorAll("#wCats button").forEach(function (x) { x.classList.toggle("on", x === b); });
+  });
+  $("#wSize").addEventListener("change", function (e) { wv.fs = parseInt(e.target.value, 10); ed.style.fontSize = wv.fs + "px"; });
+  $("#wAlign").addEventListener("click", function () {
+    var order = ["left", "center", "right"];
+    wv.ta = order[(order.indexOf(wv.ta) + 1) % 3]; ed.style.textAlign = wv.ta;
+    toast({ left: "왼쪽 정렬", center: "가운데 정렬", right: "오른쪽 정렬" }[wv.ta]);
+  });
+  document.querySelectorAll("[data-cmd]").forEach(function (b) {
+    b.addEventListener("mousedown", function (e) { e.preventDefault(); });
+    b.addEventListener("click", function () {
+      ed.focus();
+      try {
+        if (b.dataset.cmd === "hilite") { document.execCommand("styleWithCSS", false, true); document.execCommand("hiliteColor", false, "#fff200"); document.execCommand("styleWithCSS", false, false); }
+        else { document.execCommand(b.dataset.cmd); }
+      } catch (x) {}
+    });
+  });
+  ed.addEventListener("paste", function (e) {
+    e.preventDefault();
+    var t = (e.clipboardData || window.clipboardData).getData("text");
+    document.execCommand("insertText", false, t);
+  });
+  $("#wTemp").addEventListener("click", function () { toast("임시 저장했습니다"); });
+  $("#wReg").addEventListener("click", function () {
+    var title = $("#wTitle").value.trim();
+    if (!title) { toast("제목을 입력해주세요"); return; }
+    if (!ed.textContent.trim()) { toast("내용을 입력해주세요"); return; }
+    var np = {
+      id: POSTS.reduce(function (mx, x) { return Math.max(mx, x.id); }, 0) + 1,
+      cat: wv.cat, title: title, name: $("#wName").value.trim() || "병동환자", time: nowTime(),
+      views: 1, up: 0, bodyHtml: clean(ed), fs: wv.fs, ta: wv.ta, comments: [], local: true
+    };
+    var firstNormal = POSTS.findIndex(function (x) { return !x.notice; });
+    POSTS.splice(firstNormal < 0 ? POSTS.length : firstNormal, 0, np);
+    toast("글이 등록되었습니다");
+    location.hash = "post-" + np.id;
+  });
+}
+
+/* ---------------- 문자 알림: 접속 3분 뒤, 그 2분 뒤 ---------------- */
+var NOTIFS = [
+  { at: 10000, cls: "n1", title: "낙원교회", body: "[선교헌금 봉헌 안내] 낙원교회의 신도 여러분들을 축복합니다. 끝없는 쾌락이 잇따‧‧‧" },
+  { at: 60000, cls: "n2", title: "아빠", body: "연락하지마. 면회는 고민해보마" }
+];
+var audioCtx = null, notifTimer = null;
+function unlockAudio() {
+  try {
+    if (!audioCtx) { var AC = window.AudioContext || window.webkitAudioContext; if (AC) audioCtx = new AC(); }
+    if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+  } catch (e) {}
+}
+["pointerdown", "touchstart", "keydown", "click"].forEach(function (ev) { document.addEventListener(ev, unlockAudio, { passive: true }); });
+function chime() {
+  try {
+    if (!audioCtx || audioCtx.state !== "running") return;
+    var t0 = audioCtx.currentTime + 0.02;
+    [[1174.7, 0], [1480, 0.13], [1760, 0.26]].forEach(function (n) {
+      [[1, 0.22], [2, 0.05]].forEach(function (h) {
+        var o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.type = "sine"; o.frequency.value = n[0] * h[0];
+        g.gain.setValueAtTime(0.0001, t0 + n[1]);
+        g.gain.exponentialRampToValueAtTime(h[1], t0 + n[1] + 0.015);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + n[1] + 0.9);
+        o.connect(g); g.connect(audioCtx.destination);
+        o.start(t0 + n[1]); o.stop(t0 + n[1] + 1);
+      });
+    });
+  } catch (e) {}
+}
+function showNotif(n) {
+  var el = document.getElementById("notif");
+  el.className = "ios-notif " + n.cls;
+  document.getElementById("ntTitle").textContent = n.title;
+  document.getElementById("ntBody").textContent = n.body;
+  void el.offsetWidth;
+  el.classList.add("show");
+  chime();
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(function () { el.classList.remove("show"); }, 7000);
+}
+NOTIFS.forEach(function (n) { setTimeout(function () { showNotif(n); }, n.at); });
+
+/* ---------------- 읽음 표시 · 조회수 ---------------- */
+var lastViewed = "";
+function lsGet(k, d) { try { var v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } }
+function lsSet(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+var readSet = {}; lsGet("pw_read", []).forEach(function (i) { readSet[i] = 1; });
+var localViews = lsGet("pw_lv", {});
+var localLog = lsGet("pw_lvlog", []);
+var vc = { mode: "local", db: null, uid: null, docs: {}, totals: {}, mine: { counts: {}, log: [] }, ready: null, chain: Promise.resolve() };
+function isRead(id) { return !!readSet[id]; }
+function viewsOf(p) {
+  var n = p.views || 0;
+  if (p.local) return n;
+  return n + (vc.mode === "shared" ? (vc.totals["p" + p.id] || 0) : (localViews[p.id] || 0));
+}
+function refreshViews() {
+  document.querySelectorAll(".vc").forEach(function (el) { var p = byId(parseInt(el.dataset.id, 10)); if (p) el.textContent = viewsOf(p); });
+}
+function recompute() {
+  var tot = {}; vc.docs[vc.uid] = vc.mine;
+  for (var u in vc.docs) { var c = (vc.docs[u] && vc.docs[u].counts) || {}; for (var k in c) tot[k] = (tot[k] || 0) + c[k]; }
+  vc.totals = tot;
+}
+function bumpLocal(id) {
+  localViews[id] = (localViews[id] || 0) + 1; lsSet("pw_lv", localViews);
+  localLog.push({ p: id, t: Date.now() }); if (localLog.length > 200) localLog.shift(); lsSet("pw_lvlog", localLog);
+}
+function countView(id) {
+  readSet[id] = 1; lsSet("pw_read", Object.keys(readSet).map(Number));
+  var p = byId(id); if (!p || p.local) return;
+  if (vc.mode === "shared") {
+    var k = "p" + id;
+    vc.mine.counts[k] = (vc.mine.counts[k] || 0) + 1;
+    vc.mine.log.push({ p: id, t: Date.now() }); if (vc.mine.log.length > 300) vc.mine.log.shift();
+    recompute();
+    vc.chain = vc.chain.then(function () { return vc.ready; }).then(function () {
+      if (vc.mode !== "shared") { bumpLocal(id); return; }
+      return vc.db.doc("viewers/" + vc.uid).set({ counts: vc.mine.counts, log: vc.mine.log });
+    }).catch(function () {
+      if (vc.mode === "shared") { vc.mode = "local"; vc.mine = { counts: {}, log: [] }; delete vc.docs[vc.uid]; }
+      bumpLocal(id); refreshViews();
+    });
+  } else { bumpLocal(id); }
+}
+/* claude.ai에서 열었고 쓰기 권한이 있으면 모두의 조회수를 합산하고, 아니면 이 기기에서만 셉니다. */
+(function initViews() {
+  try {
+    if (!window.claude || !window.claude.use) return;
+    Promise.all([window.claude.use("db"), window.claude.use("user")]).then(function (r) {
+      var db = r[0], user = r[1];
+      if (!db || !user || !user.id) return;
+      return Promise.all([user.id(), user.can ? user.can("data.write") : null]).then(function (q) {
+        if (!q[0] || q[1] === false) return;
+        vc.db = db; vc.uid = q[0]; vc.mode = "shared";
+        vc.ready = new Promise(function (res) { vc._res = res; setTimeout(res, 8000); });
+        var first = true;
+        db.collection("viewers").onSnapshot(function (snap) {
+          var nd = {};
+          snap.docs.forEach(function (d) {
+            var data = d.data() || {};
+            if (d.id === vc.uid) {
+              if (first) {
+                var sc = data.counts || {}, mc = vc.mine.counts, merged = {}, k;
+                for (k in sc) merged[k] = sc[k];
+                for (k in mc) merged[k] = (merged[k] || 0) + mc[k];
+                vc.mine = { counts: merged, log: (data.log || []).concat(vc.mine.log).slice(-300) };
+              }
+              return;
+            }
+            nd[d.id] = data;
+          });
+          vc.docs = nd;
+          if (first) { first = false; vc._res(); }
+          recompute(); refreshViews();
+        }, function () {
+          if (vc.mode === "shared" && first) { vc.mode = "local"; vc.mine = { counts: {}, log: [] }; vc.docs = {}; vc._res(); refreshViews(); }
+        });
+      });
+    }).catch(function () {});
+  } catch (e) {}
+})();
+
+/* ---------------- 비밀글(비밀번호로 암호화) ---------------- */
+var LOCK_SVG = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 10V8a5 5 0 0110 0v2h1a1 1 0 011 1v9a1 1 0 01-1 1H6a1 1 0 01-1-1v-9a1 1 0 011-1zm2 0h6V8a3 3 0 00-6 0z"/></svg>';
+function lockIc(p) { return p.secret ? '<span class="lk" aria-label="비밀글">' + LOCK_SVG + "</span>" : ""; }
+function b64(buf) { var s = ""; new Uint8Array(buf).forEach(function (b) { s += String.fromCharCode(b); }); return btoa(s); }
+function unb64(s) { var r = atob(s), u = new Uint8Array(r.length); for (var i = 0; i < r.length; i++) u[i] = r.charCodeAt(i); return u; }
+function deriveKey(pw, salt) {
+  return crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]).then(function (k) {
+    return crypto.subtle.deriveKey({ name: "PBKDF2", salt: salt, iterations: 150000, hash: "SHA-256" }, k, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+  });
+}
+function encryptSecret(obj, pw) {
+  var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  return deriveKey(pw, salt).then(function (key) {
+    return crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, new TextEncoder().encode(JSON.stringify(obj)));
+  }).then(function (ct) { return { s: b64(salt), i: b64(iv), c: b64(ct) }; });
+}
+function decryptSecret(sec, pw) {
+  return deriveKey(pw, unb64(sec.s)).then(function (key) {
+    return crypto.subtle.decrypt({ name: "AES-GCM", iv: unb64(sec.i) }, key, unb64(sec.c));
+  }).then(function (pt) { return JSON.parse(new TextDecoder().decode(pt)); });
+}
+function renderGate(p) {
+  var id = p.id;
+  var title = (p.notice ? tagFor(p) : '<span class="cat">[' + esc(p.cat) + (EMO[p.cat] || "") + "]</span> ") + esc(p.title);
+  var admStrip = admin.on && !p.local ? '<div class="pv-adm bleed"><button data-edit="' + p.id + '">글 수정</button><button class="warn" data-del="' + p.id + '">글 삭제</button></div>' : "";
+  $("#postBody").innerHTML = admStrip +
+    '<div class="pv-head"><h2 class="pv-title">' + title + "</h2>" +
+    '<div class="pv-sub"><span class="nm">' + esc(p.name) + '</span><span class="dt">' + esc(fullDate(p)) + "</span></div></div>" +
+    '<form class="gate" id="gateForm"><div class="gate-ic">' + LOCK_SVG + '</div><p>비밀글입니다.<br>비밀번호를 입력해야 볼 수 있어요.</p>' +
+    '<div class="gate-row"><input id="gatePw" type="password" autocomplete="off" placeholder="비밀번호" aria-label="비밀번호"><button type="submit">확인</button></div></form>' +
+    '<div class="pv-btns"><button id="pvList">목록보기</button><button class="primary" id="pvWrite">글쓰기</button></div>';
+  var rest = POSTS.filter(function (x) { return x.id !== id && !x.notice; }).slice(0, 10);
+  var sv = admin.on; admin.on = false; $("#rows2").innerHTML = rest.map(rowHtml).join(""); admin.on = sv;
+  $("#gateForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var pw = $("#gatePw").value;
+    if (!pw) { toast("비밀번호를 입력해주세요"); return; }
+    if (!(window.crypto && crypto.subtle)) { toast("이 환경에서는 비밀글을 열 수 없습니다"); return; }
+    decryptSecret(p.secret, pw).then(function (d) {
+      p.body = d.body || []; p.comments = d.comments || []; p.open = true;
+      if (location.hash === "#post-" + id) renderPost(id);
+    }, function () { toast("비밀번호가 틀렸습니다"); $("#gatePw").value = ""; });
+  });
+  $("#pvList").addEventListener("click", function () { location.hash = ""; });
+  $("#pvWrite").addEventListener("click", function () { location.hash = "write"; });
+}
+
+
+/* ---------------- 관리자 편집 (편집 권한이 있는 사람에게만 보임) ---------------- */
+function buildDoc() {
+  var reset = document.head.querySelector("style");
+  var vp = document.head.querySelector('meta[name="viewport"]');
+  var c = document.body.cloneNode(true);
+  ["#cats", "#rows", "#pager", "#postBody", "#rows2", "#writeBody", "#adminRoot"].forEach(function (s) { var e = c.querySelector(s); if (e) e.innerHTML = ""; });
+  var keep = POSTS.filter(function (x) { return !x.local; }).map(function (x) {
+    var y = {}; for (var k in x) y[k] = x[k];
+    y.comments = (x.comments || []).filter(function (m) { return !m.local; });
+    if (x.secret) { y.cm = x.comments ? y.comments.length : (x.cm || 0); delete y.body; delete y.bodyHtml; delete y.comments; delete y.open; }
+    return y;
+  });
+  c.querySelector("#posts-data").textContent = JSON.stringify(keep).replace(/</g, "\\u003c");
+  c.querySelector("#listView").hidden = false; c.querySelector("#postView").hidden = true; c.querySelector("#writeView").hidden = true;
+  c.querySelector(".gal").hidden = false;
+  var t = c.querySelector("#toast"); t.hidden = true; t.textContent = "";
+  var q = c.querySelector("#q"); if (q) q.removeAttribute("value");
+  return "<!doctype html><html><head><meta charset=utf8><meta name=viewport content=\"" + (vp ? vp.getAttribute("content") : "width=device-width,initial-scale=1,viewport-fit=cover") + "\"><style>" + (reset ? reset.textContent : "") + "</style></head><body>" + c.innerHTML + "</body></html>";
+}
+function persist(okMsg) {
+  if (!admin.art) { toast("저장 권한이 없습니다"); return Promise.resolve(false); }
+  toast("저장 중입니다");
+  return admin.art.publish(buildDoc()).then(function () { admin.dirty = false; var sv = document.getElementById("admSave"); if (sv) sv.hidden = true; toast(okMsg || "저장했습니다"); return true; }, function (err) {
+    var code = err && err.code;
+    toast(code === "conflict" ? "다른 곳에서 먼저 저장되어 새로고침합니다" : "저장하지 못했습니다" + (code ? " (" + code + ")" : ""));
+    return false;
+  });
+}
+function closeModal() { var r = $("#adminRoot"); r.querySelectorAll(".modal").forEach(function (m) { m.remove(); }); }
+function openComposer(id) {
+  var p = id ? byId(id) : null;
+  var catOpts = ["공지", "일반", "일상", "정보", "질문", "썰", "건의", "설문"];
+  var cur = p ? (p.notice ? "공지" : p.cat) : "일반";
+  var cmText = p && p.comments ? p.comments.filter(function (c) { return !c.local; }).map(function (c) { return c.name + " | " + c.time + " | " + c.text; }).join("\n") : "";
+  var bodyText = p ? (p.body ? p.body.join("\n") : "") : "";
+  var m = document.createElement("div");
+  m.className = "modal";
+  m.innerHTML =
+    '<form class="sheet" id="postForm"><h3>' + (p ? "글 수정" : "새 글 쓰기") + "</h3>" +
+    '<div class="two"><label>말머리<select id="f-cat">' + catOpts.map(function (c) { return "<option" + (c === cur ? " selected" : "") + ">" + c + "</option>"; }).join("") + "</select></label>" +
+    '<label>닉네임<input type="text" id="f-name" value="' + esc(p ? p.name : "ㅇㅇ(14.53)") + '"></label></div>' +
+    '<label>제목<input type="text" id="f-title" value="' + esc(p ? p.title : "") + '"></label>' +
+    '<div class="two"><label>시간 (00:49 또는 11.08)<input type="text" id="f-time" value="' + esc(p ? p.time : nowTime()) + '"></label>' +
+    '<label>기본 조회수<input type="number" id="f-views" min="0" value="' + (p ? p.views : 0) + '"></label></div>' +
+    '<div class="two"><label>추천수<input type="number" id="f-up" min="0" value="' + (p ? p.up : 0) + '"></label><label>상세 일시 (비우면 자동)<input type="text" id="f-date" placeholder="2026.11.06 17:22" value="' + esc(p && p.date ? p.date : "") + '"></label></div>' +
+    '<div class="checks"><label><input type="checkbox" id="f-hot"' + (p && p.hot ? " checked" : "") + '> 개념글</label><label><input type="checkbox" id="f-img"' + (p && p.img ? " checked" : "") + '> 이미지 아이콘</label></div>' +
+    '<div class="checks"><label><input type="checkbox" id="f-secret"' + (p && p.secret ? " checked" : "") + '> 비밀글</label></div>' +
+    '<label>비밀번호 (비밀글일 때 입력)<input type="text" id="f-pw" autocomplete="off" placeholder="비밀번호"></label>' +
+    (p && p.secret && !p.open ? '<div class="btns" style="justify-content:flex-start"><button type="button" id="f-unlock">비밀번호로 기존 내용 불러오기</button></div>' : "") +
+    '<label>본문 (줄바꿈마다 문단이 나뉩니다)<textarea id="f-body">' + esc(bodyText) + "</textarea></label>" +
+    '<label>댓글<textarea id="f-cm" placeholder="닉네임 | 시간 | 내용">' + esc(cmText) + '</textarea><span class="hint">한 줄에 댓글 하나, 형식은 닉네임 | 시간 | 내용</span></label>' +
+    '<div class="btns"><button type="button" id="f-cancel">취소</button><button type="submit" class="save">' + (p ? "수정 저장" : "올리기") + "</button></div></form>";
+  $("#adminRoot").appendChild(m);
+  var f = function (i) { return document.getElementById(i); };
+  f("f-cancel").addEventListener("click", closeModal);
+  if (f("f-unlock")) f("f-unlock").addEventListener("click", function () {
+    var pw = f("f-pw").value;
+    if (!pw) { toast("비밀번호를 입력하세요"); return; }
+    decryptSecret(p.secret, pw).then(function (d) {
+      f("f-body").value = (d.body || []).join("\n");
+      f("f-cm").value = (d.comments || []).map(function (c) { return c.name + " | " + c.time + " | " + c.text; }).join("\n");
+      p.body = d.body || []; p.comments = d.comments || []; p.open = true; toast("불러왔습니다");
+    }, function () { toast("비밀번호가 틀렸습니다"); });
+  });
+  f("postForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var title = f("f-title").value.trim();
+    if (!title) { toast("제목을 입력하세요"); return; }
+    var cat = f("f-cat").value;
+    var comments = f("f-cm").value.split("\n").map(function (l) { return l.trim(); }).filter(Boolean).map(function (l) {
+      var a = l.split("|").map(function (s) { return s.trim(); });
+      return a.length >= 3 ? { name: a[0], time: a[1], text: a.slice(2).join(" | ") } : { name: "ㅇㅇ(14.53)", time: "", text: l };
+    });
+    var keepLocal = p && p.comments ? p.comments.filter(function (c) { return c.local; }) : [];
+    var np = {
+      id: p ? p.id : (POSTS.reduce(function (mx, x) { return Math.max(mx, x.id); }, 0) + 1),
+      cat: cat, title: title, name: f("f-name").value.trim() || "ㅇㅇ(14.53)", time: f("f-time").value.trim() || nowTime(),
+      views: parseInt(f("f-views").value, 10) || 0, up: parseInt(f("f-up").value, 10) || 0,
+      body: f("f-body").value.split("\n").map(function (l) { return l.trim(); }).filter(Boolean), comments: comments.concat(keepLocal)
+    };
+    var dv = f("f-date").value.trim(); if (dv) np.date = dv;
+    if (cat === "공지") np.notice = true;
+    if (f("f-hot").checked) np.hot = true;
+    if (f("f-img").checked) np.img = true;
+    if (p && p.secret && !p.open && !f("f-secret").checked && !np.body.length) { toast("먼저 비밀번호로 기존 내용을 불러오세요"); return; }
+    var finish = function (sec) {
+      if (sec) { np.secret = sec; np.cm = comments.length; np.open = true; }
+      if (p) { POSTS[POSTS.indexOf(p)] = np; }
+      else if (np.notice) {
+        var last = -1; POSTS.forEach(function (x, i) { if (x.notice) last = i; });
+        POSTS.splice(last + 1, 0, np);
+      } else {
+        var firstNormal = POSTS.findIndex(function (x) { return !x.notice; });
+        POSTS.splice(firstNormal < 0 ? POSTS.length : firstNormal, 0, np);
+      }
+      closeModal(); route();
+      persist(p ? "수정했습니다" : "올렸습니다");
+    };
+    if (f("f-secret").checked) {
+      var pw = f("f-pw").value;
+      if (!pw) { toast("비밀번호를 입력하세요"); return; }
+      if (!(window.crypto && crypto.subtle)) { toast("이 환경에서는 비밀글을 만들 수 없습니다"); return; }
+      encryptSecret({ body: np.body, comments: comments }, pw).then(finish, function () { toast("암호화하지 못했습니다"); });
+    } else { finish(null); }
+  });
+}
+function fmtT(ts) {
+  try { return new Date(ts).toLocaleString("ko-KR", { timeZone: "Asia/Seoul", hour12: false, month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" }); } catch (e) { return String(ts); }
+}
+function openViewLog() {
+  var entries = [];
+  if (vc.mode === "shared") { for (var u in vc.docs) ((vc.docs[u] || {}).log || []).forEach(function (e) { entries.push({ p: e.p, t: e.t, u: u }); }); }
+  else localLog.forEach(function (e) { entries.push({ p: e.p, t: e.t, u: "이 기기" }); });
+  entries.sort(function (a, b) { return b.t - a.t; });
+  var sumRows = POSTS.filter(function (x) { return !x.local; }).map(function (x) {
+    var add = vc.mode === "shared" ? (vc.totals["p" + x.id] || 0) : (localViews[x.id] || 0);
+    return "<tr><td>" + esc(x.title) + "</td><td>" + (x.views || 0) + "</td><td>+" + add + "</td><td>" + ((x.views || 0) + add) + "</td></tr>";
+  }).join("");
+  var logRows = entries.slice(0, 100).map(function (e) {
+    var x = byId(e.p);
+    return "<tr><td>" + fmtT(e.t) + "</td><td>" + esc(x ? x.title : "#" + e.p) + "</td><td>" + esc(String(e.u).slice(-4)) + "</td></tr>";
+  }).join("") || '<tr><td colspan="3">아직 기록이 없습니다</td></tr>';
+  var m = document.createElement("div");
+  m.className = "modal";
+  m.innerHTML = '<div class="sheet"><h3>조회 기록</h3><span class="hint">' + (vc.mode === "shared" ? "권한이 있는 방문자 전체의 기록이에요." : "이 기기에서 센 기록만 보여요.") + '</span>' +
+    '<div class="vtbl"><table><tr><th>글</th><th>기본</th><th>추가</th><th>합계</th></tr>' + sumRows + '</table></div>' +
+    '<div class="vtbl"><table><tr><th>시각</th><th>글</th><th>방문자</th></tr>' + logRows + '</table></div>' +
+    '<div class="btns"><button type="button" id="vl-close">닫기</button></div></div>';
+  $("#adminRoot").appendChild(m);
+  document.getElementById("vl-close").addEventListener("click", closeModal);
+}
+function mountAdminBar() {
+  var bar = document.createElement("div");
+  bar.className = "adm-bar";
+  bar.innerHTML = '<button id="admToggle">편집 모드 꺼짐</button><button id="admNew">+ 새 글</button><button id="admLog">조회 기록</button><button id="admSave" hidden>저장하기</button>';
+  $("#adminRoot").appendChild(bar);
+  $("#admToggle").addEventListener("click", function (e) {
+    admin.on = !admin.on;
+    e.target.textContent = admin.on ? "편집 모드 켜짐" : "편집 모드 꺼짐";
+    e.target.classList.toggle("on", admin.on);
+    route();
+  });
+  $("#admNew").addEventListener("click", function () { openComposer(null); });
+  $("#admLog").addEventListener("click", openViewLog);
+}
+function gkey(p) { return p.notice ? 0 : (p.cat === "설문" ? 1 : 2); }
+function movePost(id, dir) {
+  var i = POSTS.findIndex(function (x) { return x.id === id; });
+  if (i < 0) return;
+  var k = gkey(POSTS[i]), step = dir === "up" ? -1 : 1;
+  for (var j = i + step; j >= 0 && j < POSTS.length; j += step) {
+    if (!POSTS[j].local && gkey(POSTS[j]) === k) {
+      var t = POSTS[i]; POSTS[i] = POSTS[j]; POSTS[j] = t;
+      admin.dirty = true; var sv = document.getElementById("admSave"); if (sv) sv.hidden = false;
+      var y = window.scrollY; route(); window.scrollTo(0, y);
+      toast("순서를 바꿨습니다. 저장하기를 눌러야 반영돼요");
+      return;
+    }
+  }
+  toast(dir === "up" ? "이 묶음의 맨 위입니다" : "이 묶음의 맨 아래입니다");
+}
+function adminClick(e) {
+  var b, cp = curPost();
+  if ((b = e.target.closest("[data-mv]"))) { movePost(parseInt(b.dataset.id, 10), b.dataset.mv); return true; }
+  if (e.target.closest("#admSave")) { persist("저장했습니다"); return true; }
+  if ((b = e.target.closest("[data-edit]"))) { openComposer(parseInt(b.dataset.edit, 10)); return true; }
+  if ((b = e.target.closest("[data-del]"))) {
+    if (b.dataset.armed === "1") {
+      var id = parseInt(b.dataset.del, 10);
+      POSTS = POSTS.filter(function (x) { return x.id !== id; });
+      if (location.hash) { location.hash = ""; } else { route(); }
+      persist("삭제했습니다");
+    } else { b.dataset.armed = "1"; b.textContent = "정말 삭제"; }
+    return true;
+  }
+  if (cp && (b = e.target.closest("[data-cm-edit]"))) { editCm = { pid: cp.id, i: parseInt(b.dataset.cmEdit, 10) }; renderPost(cp.id); return true; }
+  if (cp && e.target.closest("[data-cm-cancel]")) { editCm = null; renderPost(cp.id); return true; }
+  if (cp && (b = e.target.closest("[data-cm-save]"))) {
+    var ci = parseInt(b.dataset.cmSave, 10), nt = document.getElementById("cm-edit-ta").value.trim();
+    if (nt) cp.comments[ci].text = nt;
+    editCm = null; renderPost(cp.id); persist("댓글을 수정했습니다"); return true;
+  }
+  if (cp && (b = e.target.closest("[data-cm-del]"))) {
+    if (b.dataset.armed === "1") { cp.comments.splice(parseInt(b.dataset.cmDel, 10), 1); renderPost(cp.id); persist("댓글을 삭제했습니다"); }
+    else { b.dataset.armed = "1"; b.textContent = "정말 삭제"; }
+    return true;
+  }
+  return false;
+}
+
+function route() {
+  var h = location.hash, m = /^#post-(\d+)$/.exec(h);
+  if (!m) lastViewed = "";
+  $("#listView").hidden = true; $("#postView").hidden = true; $("#writeView").hidden = true;
+  document.querySelector(".gal").hidden = (h === "#write");
+  if (h === "#write") {
+    $("#writeView").hidden = false; renderWrite();
+  } else if (m) {
+    if (h !== lastViewed) { lastViewed = h; countView(parseInt(m[1], 10)); }
+    $("#postView").hidden = false; renderPost(parseInt(m[1], 10));
+  } else {
+    $("#listView").hidden = false; renderList();
+  }
+  window.scrollTo(0, 0);
+}
+var toastTimer;
+function toast(msg) {
+  var t = $("#toast"); t.textContent = msg; t.hidden = false;
+  clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.hidden = true; }, 2200);
+}
+
+document.addEventListener("click", function (e) {
+  if (admin.can && adminClick(e)) return;
+  var b;
+  if ((b = e.target.closest("[data-act]"))) {
+    var act = b.dataset.act;
+    if (act === "share") {
+      try { navigator.clipboard.writeText(location.href).then(function () { toast("주소를 복사했습니다"); }, function () { toast("주소를 복사하지 못했습니다"); }); } catch (x) { toast("주소를 복사하지 못했습니다"); }
+    } else { toast({ scrap: "스크랩했습니다", concept: "추천했습니다", down: "비추천 권한이 없습니다", report: "신고가 접수되었습니다" }[act]); }
+    return;
+  }
+  var el = e.target.closest("[data-toast]");
+  if (el) { e.preventDefault(); toast(el.dataset.toast); return; }
+  var tab = e.target.closest("[data-tab]");
+  if (tab) { state.tab = tab.dataset.tab; renderList(); return; }
+  var cat = e.target.closest("[data-cat]");
+  if (cat) { state.cat = cat.dataset.cat; renderList(); return; }
+  if (e.target.closest("#writeTop, #writeFab")) { location.hash = "write"; }
+});
+$("#searchForm").addEventListener("submit", function (e) {
+  e.preventDefault(); state.q = $("#q").value.trim(); state.tab = "all"; state.cat = "전체";
+  if (location.hash) { location.hash = ""; } else { renderList(); }
+});
+window.addEventListener("hashchange", route);
+/* 방문자가 쓴 글은 메모리에만 있으므로, 새로 열었을 때 글 상세나 글쓰기 주소로 시작하면 목록으로 보냅니다. */
+if (/^#post-\d+$/.test(location.hash) && !byId(parseInt(location.hash.slice(6), 10))) { location.hash = ""; }
+route();
+</script>
+
+</body></html>
